@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RAAR</title>
+<meta name="description" content="The history of the known world. As recorded by the historians of Valdris — Year 5000 A.A.">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --black:#050408;
+  --deep:#0A0810;
+  --surface:#0F0C18;
+  --surface2:#16121F;
+  --border:rgba(255,255,255,0.08);
+  --border2:rgba(255,255,255,0.15);
+  --gold:#C9A84C;
+  --gold-soft:rgba(201,168,76,0.12);
+  --gold-mid:rgba(201,168,76,0.3);
+  --text:#D4CCE8;
+  --text2:#8A82A0;
+  --text3:#5A5270;
+  --white:#F2EEF8;
+  --cinzel:'Cinzel',serif;
+  --crimson:'Crimson Text',serif;
+  --mono:'IBM Plex Mono',monospace;
+}
+html{scroll-behavior:smooth;}
+body{font-family:var(--crimson);background:var(--black);color:var(--text);font-size:17px;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+
+/* STARS BACKGROUND */
+body::before{
+  content:'';position:fixed;inset:0;
+  background:radial-gradient(ellipse at 20% 50%,rgba(60,20,120,0.15) 0%,transparent 60%),
+             radial-gradient(ellipse at 80% 20%,rgba(20,60,120,0.1) 0%,transparent 50%),
+             radial-gradient(ellipse at 60% 80%,rgba(80,20,60,0.1) 0%,transparent 50%);
+  pointer-events:none;z-index:0;
+}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  padding:1.25rem 2.5rem;
+  display:flex;align-items:center;justify-content:space-between;
+  background:linear-gradient(to bottom,rgba(5,4,8,0.95),transparent);
+}
+.nav-logo{font-family:var(--cinzel);font-size:16px;font-weight:700;color:var(--gold);letter-spacing:0.3em;text-decoration:none;}
+.nav-links{display:flex;gap:2.5rem;list-style:none;}
+.nav-links a{font-family:var(--mono);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text2);text-decoration:none;transition:color .2s;}
+.nav-links a:hover{color:var(--gold);}
+
+/* HERO */
+#hero{
+  min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:6rem 2rem;position:relative;
+}
+.hero-ornament{font-family:var(--cinzel);font-size:10px;letter-spacing:0.4em;text-transform:uppercase;color:var(--text3);margin-bottom:3rem;}
+.hero-title{
+  font-family:var(--cinzel);font-size:clamp(5rem,18vw,14rem);font-weight:700;
+  color:var(--white);letter-spacing:0.15em;line-height:1;margin-bottom:2rem;
+  text-shadow:0 0 80px rgba(201,168,76,0.2),0 0 160px rgba(201,168,76,0.08);
+}
+.hero-divider{
+  width:200px;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent);
+  margin:0 auto 2rem;
+}
+.hero-subtitle{
+  font-family:var(--crimson);font-style:italic;font-size:1.15rem;
+  color:var(--text2);max-width:500px;line-height:1.8;margin-bottom:1rem;
+}
+.hero-date{font-family:var(--mono);font-size:10px;letter-spacing:0.2em;color:var(--text3);text-transform:uppercase;}
+.scroll-hint{
+  position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);
+  font-family:var(--mono);font-size:10px;letter-spacing:0.2em;color:var(--text3);
+  text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:.75rem;
+}
+.scroll-hint::after{
+  content:'';width:1px;height:40px;
+  background:linear-gradient(to bottom,var(--gold),transparent);
+  animation:scrollpulse 2s infinite;
+}
+@keyframes scrollpulse{0%,100%{opacity:.3}50%{opacity:1}}
+
+/* SECTIONS */
+.section{padding:6rem 0;position:relative;z-index:1;}
+.section+.section{border-top:1px solid var(--border);}
+.container{max-width:900px;margin:0 auto;padding:0 2rem;}
+.container-wide{max-width:1100px;margin:0 auto;padding:0 2rem;}
+
+.sec-label{font-family:var(--mono);font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem;}
+.sec-title{font-family:var(--cinzel);font-size:clamp(1.5rem,3vw,2.2rem);font-weight:600;color:var(--white);letter-spacing:0.05em;margin-bottom:.75rem;line-height:1.3;}
+.sec-sub{font-style:italic;color:var(--text2);margin-bottom:3rem;font-size:1rem;}
+
+/* LORE / WORLD */
+.lore-block{
+  background:var(--surface);border:1px solid var(--border);border-radius:2px;
+  padding:2rem 2.5rem;margin-bottom:1.5rem;position:relative;
+}
+.lore-block::before{
+  content:'';position:absolute;top:0;left:0;width:3px;height:100%;
+  background:linear-gradient(to bottom,var(--gold),transparent);
+}
+.lore-era{font-family:var(--mono);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem;}
+.lore-title{font-family:var(--cinzel);font-size:1.1rem;color:var(--white);margin-bottom:.75rem;letter-spacing:0.05em;}
+.lore-quote{font-style:italic;color:var(--text2);font-size:.95rem;border-left:2px solid var(--gold-mid);padding-left:1rem;margin-bottom:1rem;line-height:1.7;}
+.lore-body{font-size:1rem;color:var(--text);line-height:1.85;}
+
+/* MOONS GRID */
+.moons-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:1px;background:var(--border);border:1px solid var(--border);
+}
+.moon-card{
+  background:var(--surface);padding:1.75rem;cursor:pointer;
+  transition:background .2s;position:relative;overflow:hidden;
+}
+.moon-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(to right,transparent,var(--gold),transparent);
+  opacity:0;transition:opacity .3s;
+}
+.moon-card:hover{background:var(--surface2);}
+.moon-card:hover::before{opacity:1;}
+.moon-day{font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text3);margin-bottom:.5rem;}
+.moon-name{font-family:var(--cinzel);font-size:1.1rem;color:var(--white);letter-spacing:0.08em;margin-bottom:.3rem;}
+.moon-type{font-family:var(--mono);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem;}
+.moon-identity{font-style:italic;font-size:.9rem;color:var(--text2);margin-bottom:.5rem;line-height:1.6;}
+.moon-trait{font-family:var(--mono);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);}
+
+/* MOON EXPANDED */
+.moon-expanded{
+  display:none;background:var(--surface2);border:1px solid var(--border2);
+  border-top:none;padding:2rem 2.5rem;
+}
+.moon-expanded.open{display:block;}
+.moon-exp-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+@media(max-width:600px){.moon-exp-grid{grid-template-columns:1fr;}}
+.moon-exp-item{}
+.moon-exp-label{font-family:var(--mono);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:.35rem;}
+.moon-exp-value{font-size:.95rem;color:var(--text);line-height:1.7;}
+
+/* TIMELINE */
+.timeline{position:relative;padding-left:2rem;}
+.timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,var(--gold),transparent);}
+.tl-item{position:relative;margin-bottom:2.5rem;}
+.tl-item::before{content:'';position:absolute;left:-2.4rem;top:.4rem;width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px var(--gold);}
+.tl-period{font-family:var(--cinzel);font-size:.8rem;color:var(--gold);letter-spacing:0.1em;margin-bottom:.25rem;}
+.tl-title{font-family:var(--cinzel);font-size:1rem;color:var(--white);margin-bottom:.5rem;letter-spacing:0.05em;}
+.tl-body{font-size:.95rem;color:var(--text2);line-height:1.75;}
+
+/* AUM SECTION */
+.aum-block{
+  background:var(--surface);border:1px solid var(--border);padding:2.5rem;
+  position:relative;overflow:hidden;
+}
+.aum-block::after{
+  content:'AUM';position:absolute;right:-1rem;top:50%;transform:translateY(-50%);
+  font-family:var(--cinzel);font-size:8rem;font-weight:700;color:rgba(201,168,76,0.04);
+  letter-spacing:0.2em;pointer-events:none;line-height:1;
+}
+.aum-quote{
+  font-style:italic;font-size:1.15rem;color:var(--text);line-height:1.9;
+  border-left:3px solid var(--gold);padding-left:1.5rem;margin-bottom:1.5rem;
+}
+.aum-body{font-size:1rem;color:var(--text2);line-height:1.85;}
+
+/* CHAPTERS */
+.chapters-coming{
+  text-align:center;padding:4rem 2rem;
+  border:1px solid var(--border);background:var(--surface);
+}
+.chapters-coming .big{font-family:var(--cinzel);font-size:3rem;color:var(--text3);letter-spacing:0.2em;margin-bottom:1rem;}
+.chapters-coming p{font-style:italic;color:var(--text3);font-size:1rem;}
+
+/* TABLE */
+.lore-table{width:100%;border-collapse:collapse;margin-top:1.5rem;}
+.lore-table th{font-family:var(--mono);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);padding:.6rem 1rem;text-align:left;border-bottom:1px solid var(--border2);}
+.lore-table td{padding:.7rem 1rem;font-size:.9rem;color:var(--text2);border-bottom:1px solid var(--border);line-height:1.6;vertical-align:top;}
+.lore-table td:first-child{font-family:var(--cinzel);color:var(--white);font-size:.85rem;letter-spacing:0.05em;white-space:nowrap;}
+.lore-table tr:hover td{background:var(--surface2);}
+
+/* FOOTER */
+footer{
+  padding:3rem 2rem;border-top:1px solid var(--border);text-align:center;
+  position:relative;z-index:1;
+}
+.footer-title{font-family:var(--cinzel);font-size:1.5rem;color:var(--gold);letter-spacing:0.3em;margin-bottom:.5rem;}
+.footer-sub{font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text3);}
+.footer-link{font-family:var(--mono);font-size:10px;color:var(--text3);text-decoration:none;letter-spacing:0.1em;margin-top:1.5rem;display:inline-block;transition:color .2s;}
+.footer-link:hover{color:var(--gold);}
+
+/* ANIMATIONS */
+.fade-in{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease;}
+.fade-in.visible{opacity:1;transform:translateY(0);}
+
+@media(max-width:700px){
+  nav{padding:1rem 1.25rem;}
+  .nav-links{gap:1.25rem;}
+  .nav-links li:nth-child(n+4){display:none;}
+  .lore-block{padding:1.5rem;}
+  .moon-card{padding:1.25rem;}
+  .aum-block{padding:1.5rem;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#hero" class="nav-logo">RAAR</a>
+  <ul class="nav-links">
+    <li><a href="#world">World</a></li>
+    <li><a href="#moons">Moons</a></li>
+    <li><a href="#aum">AUM</a></li>
+    <li><a href="#chapters">Chapters</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-ornament">A Novel by Naveen Vruk</div>
+  <div class="hero-title">RAAR</div>
+  <div class="hero-divider"></div>
+  <p class="hero-subtitle">The history of the known world.<br>As recorded by the historians of Valdris.</p>
+  <div class="hero-date">Year 5000 A.A. — The Age of the Blessed may be ending.</div>
+  <div class="scroll-hint">Explore the world</div>
+</section>
+
+<!-- WORLD / LORE -->
+<section id="world" class="section">
+  <div class="container">
+    <div class="sec-label fade-in">The Five Eras</div>
+    <h2 class="sec-title fade-in">The History of the Known World</h2>
+    <p class="sec-sub fade-in">What follows is the accepted historical record — from the first days of humanity's divine creation to the present age.</p>
+
+    <div class="lore-block fade-in">
+      <div class="lore-era">Era One</div>
+      <div class="lore-title">The First Breath</div>
+      <div class="lore-quote">"In the beginning there was only the Queen, and the Queen breathed, and the world was."</div>
+      <div class="lore-body">Before the world existed, there was the Queen. The oldest texts do not speak of where she came from — only that she was, and that her existence was the first fact of creation. She was alone for longer than time can measure. From that solitude she made life — creatures shaped in the image of something she carried inside her. These were the first beings on what would become New Meridian. Then she made humanity. Her greatest creation. Her children.</div>
+    </div>
+
+    <div class="lore-block fade-in">
+      <div class="lore-era">Era Two</div>
+      <div class="lore-title">The Age of Grace</div>
+      <div class="lore-quote">"The world was generous then. The land gave freely. The air was clean. We did not yet know what waited in the dark."</div>
+      <div class="lore-body">Humanity flourished on the sacred planet. The Queen walked among her people — not as a ruler but as a presence, felt rather than seen, known rather than proven. The other creatures of the planet — those the Queen had made before humanity — lived alongside them. The people called them the Raars. It was during this age that the great science of AUM was discovered — the substance inside all things, the language of Will, the gift the Queen had woven into the fabric of her world.</div>
+    </div>
+
+    <div class="lore-block fade-in">
+      <div class="lore-era">Era Three</div>
+      <div class="lore-title">The Raar Uprising</div>
+      <div class="lore-quote">"They were beautiful. We did not know the beauty was a mask."</div>
+      <div class="lore-body">The age of peace ended when the true nature of the Raars revealed itself. Beneath their silence was not peace but patience. What followed was a century of war unlike anything humanity had faced. The Raars wielded power over the very fabric of the world — sound, air, earth, time itself. The Queen was their greatest weapon — and their greatest vulnerability. She died, and the world changed forever. Her disciples — the ones who would become the Creators — avenged her. They mastered Will as no human had before.</div>
+    </div>
+
+    <div class="lore-block fade-in">
+      <div class="lore-era">Era Four</div>
+      <div class="lore-title">The Ascension</div>
+      <div class="lore-quote">"Eight days. That is all it took. Eight days for love to become a world."</div>
+      <div class="lore-body">The Creators looked at what remained of humanity and made a decision that no record can fully capture — not because the facts are lost, but because some acts of love are simply beyond the capacity of language. They would give themselves completely. Not to fight. Not to rule. But to become — to transform their Will and their lives into something permanent enough to carry everyone else. In eight days, the moons were built. One after another, the Creators descended into the cores of their creations and became the light that has guided every generation since.</div>
+    </div>
+
+    <div class="lore-block fade-in">
+      <div class="lore-era">Era Five — Present Day</div>
+      <div class="lore-title">The Age of the Blessed</div>
+      <div class="lore-quote">"We live in the sky now. As she always intended."</div>
+      <div class="lore-body">Five thousand years have passed since the Eight Days. The moons have grown into worlds — each one a civilization, each one a culture, each one carrying the Creators' legacy. But something is changing. In the AUM, in the land below, in the dreams of those sensitive enough to feel it. In Year 5000 A.A., a royal makes a move. The sky catches fire. The Age of the Blessed may be ending.</div>
+
+      <table class="lore-table" style="margin-top:1.5rem;">
+        <thead><tr><th>Period</th><th>What the Histories Record</th></tr></thead>
+        <tbody>
+          <tr><td>0 — 500 A.A.</td><td>The founding generations. The Creators still remembered as people. The first faiths are born. The first wars between moons are fought.</td></tr>
+          <tr><td>~800 A.A.</td><td>The First World Order. Valdris established as capital, court, school and military force. All moons sign the World Accord.</td></tr>
+          <tr><td>500 — 1500 A.A.</td><td>The Mythologizing. Creators become gods. History becomes scripture. The Raar Uprising is codified into religious canon across all moons.</td></tr>
+          <tr><td>1500 — 4000 A.A.</td><td>The Long Peace. Trade, culture, and relative stability across the moons.</td></tr>
+          <tr><td>4000 — 4999 A.A.</td><td>The Tension. Political instability. Curse frequency increases. Something is changing.</td></tr>
+          <tr><td style="color:var(--gold);">Year 5000 A.A.</td><td style="color:var(--text);">Now. A royal makes a move. The sky catches fire.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- MOONS -->
+<section id="moons" class="section">
+  <div class="container-wide">
+    <div class="container" style="padding:0 2rem 0;">
+      <div class="sec-label fade-in">The Eight Days</div>
+      <h2 class="sec-title fade-in">The Moons</h2>
+      <p class="sec-sub fade-in">Eight Creators. Eight sacrifices. Eight worlds in the sky.</p>
+    </div>
+
+    <div class="moons-grid fade-in" id="moons-grid">
+
+      <div class="moon-card" onclick="toggleMoon('zoryn')">
+        <div class="moon-day">Day 1</div>
+        <div class="moon-name">Zoryn</div>
+        <div class="moon-type">Man-made</div>
+        <div class="moon-identity">Named after a dead boy by a grieving father. The most personal moon.</div>
+        <div class="moon-trait">Grief made permanent</div>
+      </div>
+
+      <div class="moon-card" onclick="toggleMoon('calderon')">
+        <div class="moon-day">Day 2</div>
+        <div class="moon-name">Calderon</div>
+        <div class="moon-type">Man-made</div>
+        <div class="moon-identity">The alliance moon. Many peoples, one Will. The most diverse moon.</div>
+        <div class="moon-trait">Unity over identity</div>
+      </div>
+
+      <div class="moon-card" onclick="toggleMoon('mahrek')">
+        <div class="moon-day">Day 3</div>
+        <div class="moon-name">Mahrek</div>
+        <div class="moon-type">Man-made</div>
+        <div class="moon-identity">The massacre clan. One name, one bloodline, one moon. The most feared moon.</div>
+        <div class="moon-trait">The warrior clan</div>
+      </div>
+
+      <div class="moon-card" onclick="toggleMoon('valdeen')">
+        <div class="moon-day">Day 4</div>
+        <div class="moon-name">Valdeen</div>
+        <div class="moon-type">Man-made</div>
+        <div class="moon-identity">Deep water moon. Still on the surface, unknown beneath. The most mysterious moon.</div>
+        <div class="moon-trait">Patient, unknowable</div>
+      </div>
+
+      <div class="moon-card" onclick="toggleMoon('albireo')">
+        <div class="moon-day">Day 5</div>
+        <div class="moon-name">Albireo</div>
+        <div class="moon-type">Man-made</div>
+        <div class="moon-identity">Gold and blue. Two natures bound together. The most divided moon.</div>
+        <div class="moon-trait">Two natures, one ascension</div>
+      </div>
+
+      <div class="moon-card" onclick="toggleMoon('longvael')">
+        <div class="moon-day">Day 6</div>
+        <div class="moon-name">Longvael</div>
+        <div class="moon-type">Man-made</div>
+        <div class="moon-identity">The dragon moon. Isolated even in sacrifice. The most isolated moon.</div>
+        <div class="moon-trait">Old name, same soul</div>
+      </div>
+
+      <div class="moon-card" onclick="toggleMoon('lorvaan')">
+        <div class="moon-day">Day 7</div>
+        <div class="moon-name">Lorvaan</div>
+        <div class="moon-type">Man-made</div>
+        <div class="moon-identity">The few who became many. Love made permanent. The most unexpected moon.</div>
+        <div class="moon-trait">Built by love</div>
+      </div>
+
+      <div class="moon-card" onclick="toggleMoon('valdris')">
+        <div class="moon-day">Day 8 — Capital</div>
+        <div class="moon-name">Valdris</div>
+        <div class="moon-type">Natural</div>
+        <div class="moon-identity">Capital, school, law, military. Where kings answer. The most powerful moon.</div>
+        <div class="moon-trait">Where the world is governed</div>
+      </div>
+
+    </div>
+
+    <!-- EXPANDED MOON DETAILS -->
+    <div id="moon-zoryn" class="moon-expanded">
+      <div class="moon-exp-grid">
+        <div class="moon-exp-item"><div class="moon-exp-label">Core Identity</div><div class="moon-exp-value">Named after the son of the Queen's husband — the boy whose name became a world. The most personal of all moons.</div></div>
+        <div class="moon-exp-item"><div class="moon-exp-label">Cultural Character</div><div class="moon-exp-value">A civilization shaped by grief made permanent. Quiet dignity. Deep loyalty. A culture that honors sacrifice above all else.</div></div>
+        <div class="moon-exp-item"><div class="moon-exp-label">Royal House</div><div class="moon-exp-value">House Zoryn — direct descendants of the Creator. The only royal house named after its moon's namesake child.</div></div>
+        <div class="moon-exp-item"><div class="moon-exp-label">Special Feature</div><div class="moon-exp-value">A rare metal found nowhere else — when worked with AUM-Will, produces the most powerful weapons known. Longvael breaks its isolation only for this.</div></div>
+        <div class="moon-exp-item"><div class="moon-exp-label">The Curse</div><div class="moon-exp-value">Treated with sorrow and shame. To become cursed on Zoryn is to betray the child the moon was named for.</div></div>
+      </div>
+    </div>
+
+    <div id="moon-calderon" class="moon-expanded">
+      <div class="moon-exp-grid">
+        <div class="moon-exp-item"><div class="moon-exp-label">Core Identity</div><div class="moon-exp-value">The alliance moon. Built by many peoples from many origins who chose unity over identity.</div></div>
+        <div class="moon-exp-item"><div class="moon-exp-label">Cultural Character</div><div class="moon-exp-value">The most internally diverse civilization in the sky. Democratic instincts. Loud political culture. Strong external unity when threatened.</div></div>
+        <div class="moon-exp-item"><div class="moon-exp-label">Royal House</div><div class="moon-exp-value">House Calderon — a rotating or elected royal line. The exact structure reflects the moon's democratic instincts.</div></div>
+        <div class="moon-exp-item"><div class="moon-exp-label">Key Relationship</div><div class="moon-exp-value">Natural counterweight to Mahrek. When Mahrek moves, Calderon responds.</div></div>
+        <div class="moon-exp-item"><div class="moon-exp-label">The Curse</div><div class="moon-exp-value">More openly discussed on Calderon than anywhere else. Treated as a medical condition rather than a moral failure.</div></div>
+        <div class="moon-exp-item"><div class="moon-exp-label">Special Feature</div><div class="moon-exp-value">Calderon's diversity means the widest range of Will abilities across its population. No single fighting style. Unpredictable in warfare.</div></div>
+      </div>
+    </div>
+
+    <div id="moon-mahrek" class="moon-expanded">
+      <div class="moon-exp-grid">
+        <div class="moon-exp-item"><div class="moon-exp-label">Core Identity</div><div class="moon-exp-value">The clan, the moon, the royal house — all one name. Built alone by a single clan. Named after themselves.</div></div>
+        <div class="moon-exp-item"><div class="moon-exp-label">Cultural Character</div><div class="moon-exp-value">Warrior culture. Purity of bloodline. Total intolerance of weakness. The Raar massacre is not a source of shame here — it is a source of pride.</div></div>
+        <div class="moon-exp-item"><div class="moon-exp-label">Royal House</div><div class="moon-exp-value">House Mahrek — the royal family IS the clan IS the moon. A Mahrek royal doesn't rule the moon. They ARE Mahrek.</div></div>
+        <div class="moon-exp-item"><div class="moon-exp-label">Key Relationship</div><div class="moon-exp-value">Dominant presence in the World Order at Valdris. Their signature on the World Accord carries more weight than any other moon's.</div></div>
+        <div class="moon-exp-item"><div class="moon-exp-label">The Curse</div><div class="moon-exp-value">The greatest shame possible on Mahrek. Cursed individuals are not treated — they are eliminated. No exceptions, including royals.</div></div>
+      </div>
+    </div>
+
+    <div id="moon-valdeen" class="moon-expanded">
+      <div class="moon-exp-grid">
+        <div class="moon-exp-item"><div class="moon-exp-label">Core Identity</div><div class="moon-exp-value">The deep water moon. Named after the elemental feeling of depth — still on the surface, unknowable underneath.</div></div>
+        <div class="moon-exp-item"><div class="moon-exp-label">Cultural Character</div><div class="moon-exp-value">Patient. Deliberate. Slow to act but impossible to stop once moving. A culture that values knowledge over speed and depth over breadth.</div></div>
+        <div class="moon-exp-item"><div class="moon-exp-label">Royal House</div><div class="moon-exp-value">House Valdeen — ancient, secretive, rarely seen in public. Their Will abilities are rumored to be the most specialized of all royal lines.</div></div>
+        <div class="moon-exp-item"><div class="moon-exp-label">The Curse</div><div class="moon-exp-value">Handled privately and quietly. Valdeen does not publicize its curse management methods. This secrecy has generated considerable speculation.</div></div>
+        <div class="moon-exp-item"><div class="moon-exp-label">Special Feature</div><div class="moon-exp-value">Believed to have the deepest understanding of AUM theory of any non-Valdris moon. Some scholars believe Valdeen's researchers have made discoveries they have not shared.</div></div>
+      </div>
+    </div>
+
+    <div id="moon-albireo" class="moon-expanded">
+      <div class="moon-exp-grid">
+        <div class="moon-exp-item"><div class="moon-exp-label">Core Identity</div><div class="moon-exp-value">Gold and blue. Two natures bound into one ascension. The most visually distinctive moon in the sky.</div></div>
+        <div class="moon-exp-item"><div class="moon-exp-label">Cultural Character</div><div class="moon-exp-value">A civilization defined by duality — two founding peoples, two traditions, two approaches to Will. The tension between them is the engine of Albireo's history.</div></div>
+        <div class="moon-exp-item"><div class="moon-exp-label">The Curse</div><div class="moon-exp-value">Each of Albireo's two peoples approaches the curse differently. This division has caused internal conflict that makes Albireo's response to any crisis unpredictable.</div></div>
+      </div>
+    </div>
+
+    <div id="moon-longvael" class="moon-expanded">
+      <div class="moon-exp-grid">
+        <div class="moon-exp-item"><div class="moon-exp-label">Core Identity</div><div class="moon-exp-value">The dragon moon. Old name, new world, same soul. Isolated even in its sacrifice — the Creator built alone and ascended alone.</div></div>
+        <div class="moon-exp-item"><div class="moon-exp-label">Cultural Character</div><div class="moon-exp-value">The most isolated civilization in the sky. Longvael has maintained near-total separation from the World Order for most of its history.</div></div>
+        <div class="moon-exp-item"><div class="moon-exp-label">Key Relationship</div><div class="moon-exp-value">Breaks its isolation only for trade with Zoryn — specifically for the rare metal that Zoryn alone possesses. This relationship is the only thread connecting Longvael to the wider world.</div></div>
+        <div class="moon-exp-item"><div class="moon-exp-label">Special Feature</div><div class="moon-exp-value">Signed the World Accord at ~800 A.A. — the only point in its history where Longvael voluntarily joined something larger than itself.</div></div>
+      </div>
+    </div>
+
+    <div id="moon-lorvaan" class="moon-expanded">
+      <div class="moon-exp-grid">
+        <div class="moon-exp-item"><div class="moon-exp-label">Core Identity</div><div class="moon-exp-value">Built by a few. Named after love. Still standing. The most unexpected moon — nobody predicted it would survive its first century.</div></div>
+        <div class="moon-exp-item"><div class="moon-exp-label">Cultural Character</div><div class="moon-exp-value">A civilization that began with almost nothing and built itself into something remarkable. Lorvaan's culture prizes resilience and ingenuity above all.</div></div>
+        <div class="moon-exp-item"><div class="moon-exp-label">The Curse</div><div class="moon-exp-value">Lorvaan treats the curse with the same pragmatic resilience it applies to everything — as a problem to be solved, not a judgment to be endured.</div></div>
+      </div>
+    </div>
+
+    <div id="moon-valdris" class="moon-expanded">
+      <div class="moon-exp-grid">
+        <div class="moon-exp-item"><div class="moon-exp-label">Core Identity</div><div class="moon-exp-value">The only natural moon. Capital of the known world. Where the World Order sits, where kings answer, where the law of all moons is written and enforced.</div></div>
+        <div class="moon-exp-item"><div class="moon-exp-label">Cultural Character</div><div class="moon-exp-value">Political. Procedural. The most cosmopolitan civilization in the sky — every moon has a permanent presence here. Valdris does not belong to one people. It belongs to the system.</div></div>
+        <div class="moon-exp-item"><div class="moon-exp-label">Special Feature</div><div class="moon-exp-value">The Historical Institute of Valdris — the body that compiled and verified the accepted historical record of the known world. What Valdris says happened, happened. This power is not incidental.</div></div>
+        <div class="moon-exp-item"><div class="moon-exp-label">The Curse</div><div class="moon-exp-value">Managed through the World Order's official medical and legal framework. Valdris sets the standard that all other moons are expected — but not always required — to follow.</div></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- AUM -->
+<section id="aum" class="section">
+  <div class="container">
+    <div class="sec-label fade-in">The Language of Will</div>
+    <h2 class="sec-title fade-in">AUM</h2>
+    <p class="sec-sub fade-in">The Avogadro-Uhlenbeck-Meitner Particle. The substance inside all things.</p>
+
+    <div class="aum-block fade-in">
+      <div class="aum-quote">"The tissue samples from Subject R-7 continue to defy classification. Every cellular structure we understand is present. Every chemical process we recognize is occurring. And yet the energy readings at the subatomic level do not correspond to any model we brought with us from home. It is as if each atom in this creature contains something extra. Something we have no instrument sensitive enough to measure. Something that, I suspect, is not passive."<br><br><span style="font-family:var(--mono);font-size:.8rem;color:var(--text3);">— Dr. Asha Meitner-Vael, Personal Research Log, PMY 3</span></div>
+      <div class="aum-body">AUM is the subquantum substrate found in all matter on New Meridian — living and inert, native and non-native. It constitutes a universal information layer operating beneath the threshold of observable quantum mechanics. Volitional Force — commonly called Will — is not a phenomenon independent of AUM. It is the primary mechanism by which conscious entities interact with, read, and overwrite AUM-encoded reality.<br><br>The implications extend across physics, biology, neuroscience, and the nature of creation itself. The Creators did not merely build the moons. They became them — their Will, permanently encoded into the AUM of each moon's core, sustaining every life lived beneath their artificial skies.</div>
+    </div>
+
+    <div style="margin-top:1.5rem;" class="fade-in">
+      <table class="lore-table">
+        <thead><tr><th>Component</th><th>Honoree</th><th>Rationale</th></tr></thead>
+        <tbody>
+          <tr><td>A — Avogadro</td><td>Amedeo Avogadro (1776–1856)</td><td>Established that matter at its most basic level is composed of discrete countable units. His work gave science the language to ask: what is inside the unit?</td></tr>
+          <tr><td>U — Uhlenbeck</td><td>George Uhlenbeck (1900–1988)</td><td>Co-discoverer of electron spin — the first evidence that subatomic particles possess intrinsic properties that cannot be reduced to classical mechanics.</td></tr>
+          <tr><td>M — Meitner</td><td>Lise Meitner (1878–1968)</td><td>Pioneered nuclear fission research. Demonstrated that stable matter contains vast, transformative energy. Her exclusion from the Nobel Prize she deserved remains one of science history's most documented injustices.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTERS -->
+<section id="chapters" class="section">
+  <div class="container">
+    <div class="sec-label fade-in">The Story</div>
+    <h2 class="sec-title fade-in">Chapters</h2>
+    <p class="sec-sub fade-in">Year 5000 A.A. A royal makes a move. The sky catches fire.</p>
+
+    <div class="chapters-coming fade-in">
+      <div class="big">I</div>
+      <p>The first chapter is coming.<br>The world is ready. The story begins soon.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-title">RAAR</div>
+  <div class="footer-sub">A novel by Naveen Vruk &nbsp;·&nbsp; raar.vrukx.com</div>
+  <br>
+  <a href="https://vrukx.com" class="footer-link">← vrukx.com</a>
+</footer>
+
+<script>
+// Moon toggle
+function toggleMoon(id){
+  const el=document.getElementById('moon-'+id);
+  const isOpen=el.classList.contains('open');
+  document.querySelectorAll('.moon-expanded').forEach(e=>e.classList.remove('open'));
+  if(!isOpen)el.classList.add('open');
+}
+
+// Fade in on scroll
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:0.1});
+document.querySelectorAll('.fade-in').forEach(el=>observer.observe(el));
+
+// Nav scroll
+window.addEventListener('scroll',()=>{
+  const y=window.scrollY+80;
+  ['world','moons','aum','chapters'].forEach(id=>{
+    const s=document.getElementById(id);
+    const l=document.querySelector(`.nav-links a[href="#${id}"]`);
+    if(!s||!l)return;
+    l.style.color=y>=s.offsetTop&&y<s.offsetTop+s.offsetHeight?'var(--gold)':'';
+  });
+});
+</script>
+</body>
+</html>
