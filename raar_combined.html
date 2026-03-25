@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RAAR</title>
+<meta name="description" content="The history of the known world. As recorded by the historians of Valdris — Year 5000 A.A.">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400;1,600&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --black:#050408;
+  --deep:#0A0810;
+  --surface:#0F0C18;
+  --surface2:#16121F;
+  --border:rgba(255,255,255,0.08);
+  --border2:rgba(255,255,255,0.15);
+  --gold:#C9A84C;
+  --gold-soft:rgba(201,168,76,0.12);
+  --gold-mid:rgba(201,168,76,0.3);
+  --text:#D4CCE8;
+  --text2:#8A82A0;
+  --text3:#5A5270;
+  --white:#F2EEF8;
+  --cinzel:'Cinzel',serif;
+  --crimson:'Crimson Text',serif;
+  --mono:'IBM Plex Mono',monospace;
+}
+html{scroll-behavior:smooth;}
+body{font-family:var(--crimson);background:var(--black);color:var(--text);font-size:17px;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+
+body::before{
+  content:'';position:fixed;inset:0;
+  background:radial-gradient(ellipse at 20% 50%,rgba(60,20,120,0.15) 0%,transparent 60%),
+             radial-gradient(ellipse at 80% 20%,rgba(20,60,120,0.1) 0%,transparent 50%),
+             radial-gradient(ellipse at 60% 80%,rgba(80,20,60,0.1) 0%,transparent 50%);
+  pointer-events:none;z-index:0;
+}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  padding:1.25rem 2.5rem;
+  display:flex;align-items:center;justify-content:space-between;
+  background:linear-gradient(to bottom,rgba(5,4,8,0.95),transparent);
+}
+.nav-logo{font-family:var(--cinzel);font-size:16px;font-weight:700;color:var(--gold);letter-spacing:0.3em;text-decoration:none;}
+.nav-links{display:flex;gap:2.5rem;list-style:none;}
+.nav-links a{font-family:var(--mono);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text2);text-decoration:none;transition:color .2s;}
+.nav-links a:hover{color:var(--gold);}
+
+/* HERO */
+#hero{
+  min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:6rem 2rem;position:relative;
+}
+.hero-ornament{font-family:var(--mono);font-size:10px;letter-spacing:0.4em;text-transform:uppercase;color:var(--text3);margin-bottom:3rem;}
+.hero-title{
+  font-family:var(--cinzel);font-size:clamp(5rem,18vw,14rem);font-weight:700;
+  color:var(--white);letter-spacing:0.15em;line-height:1;margin-bottom:2rem;
+  text-shadow:0 0 80px rgba(201,168,76,0.2),0 0 160px rgba(201,168,76,0.08);
+}
+.hero-divider{width:200px;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent);margin:0 auto 2rem;}
+.hero-subtitle{font-family:var(--crimson);font-style:italic;font-size:1.15rem;color:var(--text2);max-width:500px;line-height:1.8;margin-bottom:1rem;}
+.hero-date{font-family:var(--mono);font-size:10px;letter-spacing:0.2em;color:var(--text3);text-transform:uppercase;}
+.scroll-hint{
+  position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);
+  font-family:var(--mono);font-size:10px;letter-spacing:0.2em;color:var(--text3);
+  text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:.75rem;
+}
+.scroll-hint::after{content:'';width:1px;height:40px;background:linear-gradient(to bottom,var(--gold),transparent);animation:scrollpulse 2s infinite;}
+@keyframes scrollpulse{0%,100%{opacity:.3}50%{opacity:1}}
+
+/* SECTIONS */
+.section{padding:6rem 0;position:relative;z-index:1;}
+.section+.section{border-top:1px solid var(--border);}
+.container{max-width:900px;margin:0 auto;padding:0 2rem;}
+.container-wide{max-width:1100px;margin:0 auto;padding:0 2rem;}
+.sec-label{font-family:var(--mono);font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem;}
+.sec-title{font-family:var(--cinzel);font-size:clamp(1.5rem,3vw,2.2rem);font-weight:600;color:var(--white);letter-spacing:0.05em;margin-bottom:.75rem;line-height:1.3;}
+.sec-sub{font-style:italic;color:var(--text2);margin-bottom:3rem;font-size:1rem;}
+
+/* LORE */
+.lore-block{background:var(--surface);border:1px solid var(--border);border-radius:2px;padding:2rem 2.5rem;margin-bottom:1.5rem;position:relative;}
+.lore-block::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:linear-gradient(to bottom,var(--gold),transparent);}
+.lore-era{font-family:var(--mono);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem;}
+.lore-title{font-family:var(--cinzel);font-size:1.1rem;color:var(--white);margin-bottom:.75rem;letter-spacing:0.05em;}
+.lore-quote{font-style:italic;color:var(--text2);font-size:.95rem;border-left:2px solid var(--gold-mid);padding-left:1rem;margin-bottom:1rem;line-height:1.7;}
+.lore-body{font-size:1rem;color:var(--text);line-height:1.85;}
+
+/* SIMULATION SECTION */
+#simulation{padding:0;position:relative;z-index:1;}
+.sim-wrapper{
+  position:relative;width:100%;height:100vh;
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  overflow:hidden;
+}
+.sim-label{
+  position:absolute;top:0;left:0;right:0;z-index:30;
+  padding:1.25rem 2.5rem;
+  background:linear-gradient(to bottom,rgba(5,4,8,0.9),transparent);
+  pointer-events:none;
+}
+.sim-label .sec-label{margin-bottom:.2rem;}
+.sim-label .sec-title{font-size:1.2rem;margin-bottom:0;}
+
+/* HELMS GRID */
+.helms-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);}
+.helm-card{background:var(--surface);padding:1.75rem;cursor:pointer;transition:background .2s;position:relative;overflow:hidden;}
+.helm-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--gold),transparent);opacity:0;transition:opacity .3s;}
+.helm-card:hover{background:var(--surface2);}
+.helm-card:hover::before{opacity:1;}
+.helm-day{font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text3);margin-bottom:.5rem;}
+.helm-name{font-family:var(--cinzel);font-size:1.1rem;color:var(--white);letter-spacing:0.08em;margin-bottom:.3rem;}
+.helm-type{font-family:var(--mono);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem;}
+.helm-identity{font-style:italic;font-size:.9rem;color:var(--text2);margin-bottom:.5rem;line-height:1.6;}
+.helm-trait{font-family:var(--mono);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);}
+
+/* HELM EXPANDED */
+.helm-expanded{display:none;background:var(--surface2);border:1px solid var(--border2);border-top:none;padding:2rem 2.5rem;}
+.helm-expanded.open{display:block;}
+.helm-exp-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+@media(max-width:600px){.helm-exp-grid{grid-template-columns:1fr;}}
+.helm-exp-label{font-family:var(--mono);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:.35rem;}
+.helm-exp-value{font-size:.95rem;color:var(--text);line-height:1.7;}
+
+/* TIMELINE */
+.timeline{position:relative;padding-left:2rem;}
+.timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,var(--gold),transparent);}
+.tl-item{position:relative;margin-bottom:2.5rem;}
+.tl-item::before{content:'';position:absolute;left:-2.4rem;top:.4rem;width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px var(--gold);}
+.tl-period{font-family:var(--cinzel);font-size:.8rem;color:var(--gold);letter-spacing:0.1em;margin-bottom:.25rem;}
+.tl-title{font-family:var(--cinzel);font-size:1rem;color:var(--white);margin-bottom:.5rem;letter-spacing:0.05em;}
+.tl-body{font-size:.95rem;color:var(--text2);line-height:1.75;}
+
+/* AUM */
+.aum-block{background:var(--surface);border:1px solid var(--border);padding:2.5rem;position:relative;overflow:hidden;}
+.aum-block::after{content:'AUM';position:absolute;right:-1rem;top:50%;transform:translateY(-50%);font-family:var(--cinzel);font-size:8rem;font-weight:700;color:rgba(201,168,76,0.04);letter-spacing:0.2em;pointer-events:none;line-height:1;}
+.aum-quote{font-style:italic;font-size:1.15rem;color:var(--text);line-height:1.9;border-left:3px solid var(--gold);padding-left:1.5rem;margin-bottom:1.5rem;}
+.aum-body{font-size:1rem;color:var(--text2);line-height:1.85;}
+
+/* CHAPTERS */
+.chapters-coming{text-align:center;padding:4rem 2rem;border:1px solid var(--border);background:var(--surface);}
+.chapters-coming .big{font-family:var(--cinzel);font-size:3rem;color:var(--text3);letter-spacing:0.2em;margin-bottom:1rem;}
+.chapters-coming p{font-style:italic;color:var(--text3);font-size:1rem;}
+
+/* TABLE */
+.lore-table{width:100%;border-collapse:collapse;margin-top:1.5rem;}
+.lore-table th{font-family:var(--mono);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);padding:.6rem 1rem;text-align:left;border-bottom:1px solid var(--border2);}
+.lore-table td{padding:.7rem 1rem;font-size:.9rem;color:var(--text2);border-bottom:1px solid var(--border);line-height:1.6;vertical-align:top;}
+.lore-table td:first-child{font-family:var(--cinzel);color:var(--white);font-size:.85rem;letter-spacing:0.05em;white-space:nowrap;}
+.lore-table tr:hover td{background:var(--surface2);}
+
+/* FOOTER */
+footer{padding:3rem 2rem;border-top:1px solid var(--border);text-align:center;position:relative;z-index:1;}
+.footer-title{font-family:var(--cinzel);font-size:1.5rem;color:var(--gold);letter-spacing:0.3em;margin-bottom:.5rem;}
+.footer-sub{font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text3);}
+.footer-link{font-family:var(--mono);font-size:10px;color:var(--text3);text-decoration:none;letter-spacing:0.1em;margin-top:1.5rem;display:inline-block;transition:color .2s;}
+.footer-link:hover{color:var(--gold);}
+
+/* METALS */
+.class-btn{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:4px 12px;border-radius:2px;border:1px solid var(--border);background:transparent;color:var(--text3);cursor:pointer;transition:all .15s;}
+.class-btn:hover,.class-btn.active{color:var(--white);border-color:var(--gold-mid);background:var(--gold-soft);}
+.class-btn.ignis.active{background:rgba(180,40,30,.2);border-color:rgba(180,40,30,.4);color:#FF8070;}
+.class-btn.aqua.active{background:rgba(20,80,160,.2);border-color:rgba(20,80,160,.4);color:#70B0FF;}
+.class-btn.terra.active{background:rgba(60,120,40,.2);border-color:rgba(60,120,40,.4);color:#80C060;}
+.class-btn.aero.active{background:rgba(80,140,160,.2);border-color:rgba(80,140,160,.4);color:#80D0E0;}
+.class-btn.fulmen.active{background:rgba(160,120,20,.2);border-color:rgba(160,120,20,.4);color:#FFD060;}
+.class-btn.sono.active{background:rgba(120,60,160,.2);border-color:rgba(120,60,160,.4);color:#C090FF;}
+.class-btn.vita.active{background:rgba(40,140,80,.2);border-color:rgba(40,140,80,.4);color:#60F0A0;}
+.class-btn.tempus.active{background:rgba(160,100,40,.2);border-color:rgba(160,100,40,.4);color:#FFB060;}
+.class-btn.void.active{background:rgba(40,20,80,.4);border-color:rgba(100,60,160,.4);color:#A080FF;}
+.class-btn.animus.active{background:rgba(160,30,30,.2);border-color:rgba(160,30,30,.4);color:#FF7070;}
+.class-btn.zorinium.active{background:rgba(201,168,76,.15);border-color:var(--gold);color:var(--gold);}
+.class-btn.elite.active{background:rgba(201,168,76,.25);border-color:var(--gold);color:var(--gold);}
+.class-btn.dead.active{background:rgba(60,60,60,.4);border-color:rgba(120,120,120,.4);color:#999;}
+.class-btn.hybrid.active{background:rgba(80,40,120,.3);border-color:rgba(140,80,200,.4);color:#C0A0FF;}
+
+.metals-table{width:100%;border-collapse:collapse;margin-bottom:2rem;}
+.metals-table thead tr{border-bottom:1px solid var(--border2);}
+.metals-table th{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);padding:.5rem .75rem;text-align:left;}
+.metals-table td{padding:.6rem .75rem;font-size:.85rem;color:var(--text2);border-bottom:1px solid var(--border);vertical-align:middle;line-height:1.5;}
+.metals-table tr:hover td{background:var(--surface2);}
+.metal-sym{font-family:var(--mono);font-size:.9rem;font-weight:500;color:var(--white);}
+.metal-name{font-weight:600;color:var(--white);font-family:var(--crimson);font-size:.95rem;}
+.metal-class-tag{font-family:var(--mono);font-size:8px;letter-spacing:.1em;text-transform:uppercase;padding:2px 6px;border-radius:2px;}
+.metal-class-tag.IGNIS{background:rgba(180,40,30,.2);color:#FF8070;}
+.metal-class-tag.AQUA{background:rgba(20,80,160,.2);color:#70B0FF;}
+.metal-class-tag.TERRA{background:rgba(60,120,40,.2);color:#80C060;}
+.metal-class-tag.AERO{background:rgba(80,140,160,.2);color:#80D0E0;}
+.metal-class-tag.FULMEN{background:rgba(160,120,20,.2);color:#FFD060;}
+.metal-class-tag.SONO{background:rgba(120,60,160,.2);color:#C090FF;}
+.metal-class-tag.VITA{background:rgba(40,140,80,.2);color:#60F0A0;}
+.metal-class-tag.TEMPUS{background:rgba(160,100,40,.2);color:#FFB060;}
+.metal-class-tag.VOID{background:rgba(40,20,80,.4);color:#A080FF;}
+.metal-class-tag.ANIMUS{background:rgba(160,30,30,.2);color:#FF7070;}
+.metal-class-tag.ZORINIUM{background:rgba(201,168,76,.15);color:var(--gold);}
+.metal-class-tag.ELITE{background:rgba(201,168,76,.25);color:var(--gold);}
+.metal-class-tag.DEAD{background:rgba(60,60,60,.3);color:#888;}
+.metal-class-tag.HYBRID{background:rgba(80,40,120,.3);color:#C0A0FF;}
+.grade-stars{color:var(--gold);font-size:.75rem;letter-spacing:.05em;}
+.grade-empty{color:var(--text3);}
+.rarity-tag{font-family:var(--mono);font-size:8px;letter-spacing:.08em;padding:2px 6px;border-radius:2px;background:var(--surface2);color:var(--text3);}
+.rarity-tag.singular{background:rgba(201,168,76,.1);color:var(--gold);}
+.rarity-tag.restricted,.rarity-tag.classified{background:rgba(180,40,30,.15);color:#FF8070;}
+.rarity-tag.dead{background:rgba(60,60,60,.3);color:#888;}
+.rarity-tag.elite{background:rgba(201,168,76,.2);color:var(--gold);}
+.origin-tag{font-family:var(--mono);font-size:8px;color:var(--text3);}
+@media(max-width:700px){.metals-table th:nth-child(n+5),.metals-table td:nth-child(n+5){display:none;}}
+
+.fade-in{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease;}
+.fade-in.visible{opacity:1;transform:translateY(0);}
+@media(max-width:700px){
+  nav{padding:1rem 1.25rem;}
+  .nav-links{gap:1.25rem;}
+  .nav-links li:nth-child(n+4){display:none;}
+  .lore-block{padding:1.5rem;}
+  .helm-card{padding:1.25rem;}
+  .aum-block{padding:1.5rem;}
+  .sim-wrapper{height:70vh;}
+}
+
+/* ── SIMULATION CANVAS STYLES ── */
+#sim-canvas{display:block;width:100%;height:100%;}
+#sim-ui{position:absolute;inset:0;pointer-events:none;z-index:10;}
+#sim-breadcrumb{
+  position:absolute;top:5rem;left:2.5rem;
+  font-family:var(--mono);font-size:11px;color:var(--text2);
+  letter-spacing:0.15em;text-transform:uppercase;
+  pointer-events:auto;
+  display:flex;align-items:center;gap:0.5rem;
+}
+.sim-bc-item{cursor:pointer;transition:color 0.2s;}
+.sim-bc-item:hover{color:var(--gold);}
+.sim-bc-sep{color:var(--text3);}
+.sim-bc-current{color:var(--text);}
+#sim-back-btn{
+  position:absolute;bottom:2rem;left:2.5rem;
+  font-family:var(--mono);font-size:11px;color:var(--text2);
+  letter-spacing:0.2em;text-transform:uppercase;
+  cursor:pointer;pointer-events:auto;
+  padding:0.6rem 1.2rem;border:1px solid var(--text3);
+  transition:all 0.3s;display:none;background:transparent;
+}
+#sim-back-btn:hover{color:var(--gold);border-color:var(--gold-mid);}
+#sim-instructions{
+  position:absolute;bottom:2rem;right:2.5rem;
+  font-family:var(--mono);font-size:10px;color:var(--text3);
+  letter-spacing:0.1em;text-align:right;line-height:1.8;
+}
+#sim-info-panel{
+  position:absolute;right:2.5rem;top:50%;transform:translateY(-50%) translateX(20px);
+  width:300px;background:rgba(6,4,20,0.95);
+  border:1px solid rgba(201,168,76,0.2);
+  padding:1.75rem;pointer-events:auto;
+  opacity:0;transition:opacity 0.4s,transform 0.4s;
+  backdrop-filter:blur(12px);
+}
+#sim-info-panel.visible{opacity:1;transform:translateY(-50%) translateX(0);}
+.sim-panel-symbol{font-family:var(--cinzel);font-size:30px;font-weight:900;color:var(--gold);margin-bottom:.2rem;letter-spacing:0.1em;}
+.sim-panel-name{font-family:var(--cinzel);font-size:18px;font-weight:600;color:var(--white);margin-bottom:.2rem;}
+.sim-panel-type{font-family:var(--mono);font-size:9px;color:var(--text2);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:1px solid var(--text3);}
+.sim-panel-desc{font-family:var(--crimson);font-size:14px;color:var(--text);line-height:1.7;margin-bottom:.75rem;}
+.sim-panel-detail{font-family:var(--mono);font-size:9px;color:var(--text2);letter-spacing:0.1em;line-height:2;}
+.sim-panel-detail span{color:var(--gold);}
+#sim-close-panel{position:absolute;top:.75rem;right:.75rem;font-family:var(--mono);font-size:10px;color:var(--text3);cursor:pointer;letter-spacing:0.1em;transition:color 0.2s;background:none;border:none;}
+#sim-close-panel:hover{color:var(--gold);}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#hero" class="nav-logo">RAAR</a>
+  <ul class="nav-links">
+    <li><a href="#world">World</a></li>
+    <li><a href="#simulation">System</a></li>
+    <li><a href="#helms">Helms</a></li>
+    <li><a href="#aum">AUM</a></li>
+    <li><a href="#codex">Codex</a></li>
+    <li><a href="#chapters">Chapters</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-ornament">A Novel by Naveen Vruk</div>
+  <div class="hero-title">RAAR</div>
+  <div class="hero-divider"></div>
+  <p class="hero-subtitle">The history of the known world.<br>As recorded by the historians of Valdris.</p>
+  <div class="hero-date">Year 5000 A.A. — The Age of the Blessed may be ending.</div>
+  <div class="scroll-hint">Explore the world</div>
+</section>
+
+<!-- WORLD / LORE -->
+<section id="world" class="section">
+  <div class="container">
+    <div class="sec-label fade-in">The Five Eras</div>
+    <h2 class="sec-title fade-in">The History of the Known World</h2>
+    <p class="sec-sub fade-in">What follows is the accepted historical record — from the first days of humanity's divine creation to the present age.</p>
+
+    <div class="lore-block fade-in">
+      <div class="lore-era">Era One</div>
+      <div class="lore-title">The First Breath</div>
+      <div class="lore-quote">"In the beginning there was only the Queen, and the Queen breathed, and the world was."</div>
+      <div class="lore-body">Before the world existed, there was the Queen. The oldest texts do not speak of where she came from — only that she was, and that her existence was the first fact of creation. She was alone for longer than time can measure. From that solitude she made life — creatures shaped in the image of something she carried inside her. These were the first beings on what would become New Meridian. Then she made humanity. Her greatest creation. Her children.</div>
+    </div>
+
+    <div class="lore-block fade-in">
+      <div class="lore-era">Era Two</div>
+      <div class="lore-title">The Age of Grace</div>
+      <div class="lore-quote">"The world was generous then. The land gave freely. The air was clean. We did not yet know what waited in the dark."</div>
+      <div class="lore-body">Humanity flourished on the sacred planet. The Queen walked among her people — not as a ruler but as a presence, felt rather than seen, known rather than proven. The other creatures of the planet — those the Queen had made before humanity — lived alongside them. The people called them the Raars. It was during this age that the great science of AUM was discovered — the substance inside all things, the language of Will, the gift the Queen had woven into the fabric of her world.</div>
+    </div>
+
+    <div class="lore-block fade-in">
+      <div class="lore-era">Era Three</div>
+      <div class="lore-title">The Raar Uprising</div>
+      <div class="lore-quote">"They were beautiful. We did not know the beauty was a mask."</div>
+      <div class="lore-body">The age of peace ended when the true nature of the Raars revealed itself. Beneath their silence was not peace but patience. What followed was a century of war unlike anything humanity had faced. The Raars wielded power over the very fabric of the world — sound, air, earth, time itself. The Queen was their greatest weapon — and their greatest vulnerability. She died, and the world changed forever. Her disciples — the ones who would become the Creators — avenged her. They mastered Will as no human had before.</div>
+    </div>
+
+    <div class="lore-block fade-in">
+      <div class="lore-era">Era Four</div>
+      <div class="lore-title">The Ascension</div>
+      <div class="lore-quote">"Eight days. That is all it took. Eight days for love to become a world."</div>
+      <div class="lore-body">The Creators looked at what remained of humanity and made a decision that no record can fully capture — not because the facts are lost, but because some acts of love are simply beyond the capacity of language. They would give themselves completely. Not to fight. Not to rule. But to become — to transform their Will and their lives into something permanent enough to carry everyone else. In eight days, the Helms were built. One after another, the Creators descended into the cores of their creations and became the light that has guided every generation since.</div>
+    </div>
+
+    <div class="lore-block fade-in">
+      <div class="lore-era">Era Five — Present Day</div>
+      <div class="lore-title">The Age of the Blessed</div>
+      <div class="lore-quote">"We live in the sky now. As she always intended."</div>
+      <div class="lore-body">Five thousand years have passed since the Eight Days. The Helms have grown into worlds — each one a civilization, each one a culture, each one carrying the Creators' legacy. But something is changing. In the AUM, in the land below, in the dreams of those sensitive enough to feel it. In Year 5000 A.A., a royal makes a move. The sky catches fire. The Age of the Blessed may be ending.</div>
+
+      <table class="lore-table" style="margin-top:1.5rem;">
+        <thead><tr><th>Period</th><th>What the Histories Record</th></tr></thead>
+        <tbody>
+          <tr><td>0 — 500 A.A.</td><td>The founding generations. The Creators still remembered as people. The first faiths are born. The first wars between Helms are fought.</td></tr>
+          <tr><td>~800 A.A.</td><td>The First World Order. Valdris established as capital, court, school and military force. All Helms sign the World Accord.</td></tr>
+          <tr><td>500 — 1500 A.A.</td><td>The Mythologizing. Creators become gods. History becomes scripture. The Raar Uprising is codified into religious canon across all Helms.</td></tr>
+          <tr><td>1500 — 4000 A.A.</td><td>The Long Peace. Trade, culture, and relative stability across the Helms.</td></tr>
+          <tr><td>4000 — 4999 A.A.</td><td>The Tension. Political instability. Curse frequency increases. Something is changing.</td></tr>
+          <tr><td style="color:var(--gold);">Year 5000 A.A.</td><td style="color:var(--text);">Now. A royal makes a move. The sky catches fire.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- SIMULATION -->
+<section id="simulation">
+  <div class="sim-wrapper">
+    <div class="sim-label">
+      <div class="sec-label">The Regor System</div>
+      <div class="sec-title" id="sim-section-title">Interactive Star Map — Click any body to explore</div>
+    </div>
+
+    <canvas id="sim-canvas"></canvas>
+
+    <div id="sim-ui">
+      <div id="sim-breadcrumb">
+        <span class="sim-bc-item" id="sim-bc-system">Regor System</span>
+        <span class="sim-bc-sep" id="sim-bc-sep" style="display:none">›</span>
+        <span class="sim-bc-current" id="sim-bc-anara" style="display:none">Anara</span>
+      </div>
+
+      <button id="sim-back-btn">← Back to Regor System</button>
+
+      <div id="sim-instructions">
+        Click any body to learn more<br>
+        Click Anara to enter its system
+      </div>
+
+      <div id="sim-info-panel">
+        <button id="sim-close-panel">✕ close</button>
+        <div class="sim-panel-symbol" id="sim-panel-symbol"></div>
+        <div class="sim-panel-name" id="sim-panel-name"></div>
+        <div class="sim-panel-type" id="sim-panel-type"></div>
+        <div class="sim-panel-desc" id="sim-panel-desc"></div>
+        <div class="sim-panel-detail" id="sim-panel-detail"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HELMS -->
+<section id="helms" class="section">
+  <div class="container-wide">
+    <div class="container" style="padding:0 2rem 0;">
+      <div class="sec-label fade-in">The Eight Days</div>
+      <h2 class="sec-title fade-in">The Eight Helms</h2>
+      <p class="sec-sub fade-in">Eight Creators. Eight sacrifices. Eight worlds in the sky.</p>
+    </div>
+
+    <div class="helms-grid fade-in">
+
+      <div class="helm-card" onclick="toggleHelm('zoryn')">
+        <div class="helm-day">Day 1</div>
+        <div class="helm-name">Zoryn</div>
+        <div class="helm-type">Man-made</div>
+        <div class="helm-identity">Named after a dead boy by a grieving father. The most personal Helm.</div>
+        <div class="helm-trait">Grief made permanent</div>
+      </div>
+
+      <div class="helm-card" onclick="toggleHelm('calderon')">
+        <div class="helm-day">Day 2</div>
+        <div class="helm-name">Calderon</div>
+        <div class="helm-type">Man-made</div>
+        <div class="helm-identity">The alliance Helm. Many peoples, one Will. The most diverse Helm.</div>
+        <div class="helm-trait">Unity over identity</div>
+      </div>
+
+      <div class="helm-card" onclick="toggleHelm('mahrek')">
+        <div class="helm-day">Day 3</div>
+        <div class="helm-name">Mahrek</div>
+        <div class="helm-type">Man-made</div>
+        <div class="helm-identity">The massacre clan. One name, one bloodline, one Helm. The most feared Helm.</div>
+        <div class="helm-trait">The warrior clan</div>
+      </div>
+
+      <div class="helm-card" onclick="toggleHelm('valdeen')">
+        <div class="helm-day">Day 4</div>
+        <div class="helm-name">Valdeen</div>
+        <div class="helm-type">Man-made</div>
+        <div class="helm-identity">Deep water Helm. Still on the surface, unknown beneath. The most mysterious Helm.</div>
+        <div class="helm-trait">Patient, unknowable</div>
+      </div>
+
+      <div class="helm-card" onclick="toggleHelm('albireo')">
+        <div class="helm-day">Day 5</div>
+        <div class="helm-name">Albireo</div>
+        <div class="helm-type">Man-made</div>
+        <div class="helm-identity">Gold and blue. Two natures bound together. The most divided Helm.</div>
+        <div class="helm-trait">Two natures, one ascension</div>
+      </div>
+
+      <div class="helm-card" onclick="toggleHelm('longvael')">
+        <div class="helm-day">Day 6</div>
+        <div class="helm-name">Longvael</div>
+        <div class="helm-type">Man-made</div>
+        <div class="helm-identity">The dragon Helm. Isolated even in sacrifice. The most isolated Helm.</div>
+        <div class="helm-trait">Old name, same soul</div>
+      </div>
+
+      <div class="helm-card" onclick="toggleHelm('lorvaan')">
+        <div class="helm-day">Day 7</div>
+        <div class="helm-name">Lorvaan</div>
+        <div class="helm-type">Man-made</div>
+        <div class="helm-identity">The few who became many. Love made permanent. The most unexpected Helm.</div>
+        <div class="helm-trait">Built by love</div>
+      </div>
+
+      <div class="helm-card" onclick="toggleHelm('valdris')">
+        <div class="helm-day">Day 8 — Capital</div>
+        <div class="helm-name">Valdris</div>
+        <div class="helm-type">Natural</div>
+        <div class="helm-identity">Capital, school, law, military. Where kings answer. The most powerful Helm.</div>
+        <div class="helm-trait">Where the world is governed</div>
+      </div>
+
+    </div>
+
+    <!-- EXPANDED HELM DETAILS -->
+    <div id="helm-zoryn" class="helm-expanded">
+      <div class="helm-exp-grid">
+        <div><div class="helm-exp-label">Core Identity</div><div class="helm-exp-value">Named after the son of the Queen's husband — the boy whose name became a world. The most personal of all Helms.</div></div>
+        <div><div class="helm-exp-label">Cultural Character</div><div class="helm-exp-value">A civilization shaped by grief made permanent. Quiet dignity. Deep loyalty. A culture that honors sacrifice above all else.</div></div>
+        <div><div class="helm-exp-label">Royal House</div><div class="helm-exp-value">House Zoryn — direct descendants of the Creator. The only royal house named after its Helm's namesake child.</div></div>
+        <div><div class="helm-exp-label">Special Feature</div><div class="helm-exp-value">A rare metal found nowhere else — when worked with AUM-Will, produces the most powerful weapons known. Longvael breaks its isolation only for this.</div></div>
+        <div><div class="helm-exp-label">The Curse</div><div class="helm-exp-value">Treated with sorrow and shame. To become cursed on Zoryn is to betray the child the Helm was named for.</div></div>
+      </div>
+    </div>
+
+    <div id="helm-calderon" class="helm-expanded">
+      <div class="helm-exp-grid">
+        <div><div class="helm-exp-label">Core Identity</div><div class="helm-exp-value">The alliance Helm. Built by many peoples from many origins who chose unity over identity.</div></div>
+        <div><div class="helm-exp-label">Cultural Character</div><div class="helm-exp-value">The most internally diverse civilization in the sky. Democratic instincts. Loud political culture. Strong external unity when threatened.</div></div>
+        <div><div class="helm-exp-label">Royal House</div><div class="helm-exp-value">House Calderon — a rotating or elected royal line. The exact structure reflects the Helm's democratic instincts.</div></div>
+        <div><div class="helm-exp-label">Key Relationship</div><div class="helm-exp-value">Natural counterweight to Mahrek. When Mahrek moves, Calderon responds.</div></div>
+        <div><div class="helm-exp-label">The Curse</div><div class="helm-exp-value">More openly discussed on Calderon than anywhere else. Treated as a medical condition rather than a moral failure.</div></div>
+        <div><div class="helm-exp-label">Special Feature</div><div class="helm-exp-value">Calderon's diversity means the widest range of Will abilities across its population. No single fighting style. Unpredictable in warfare.</div></div>
+      </div>
+    </div>
+
+    <div id="helm-mahrek" class="helm-expanded">
+      <div class="helm-exp-grid">
+        <div><div class="helm-exp-label">Core Identity</div><div class="helm-exp-value">The clan, the Helm, the royal house — all one name. Built alone by a single clan. Named after themselves.</div></div>
+        <div><div class="helm-exp-label">Cultural Character</div><div class="helm-exp-value">Warrior culture. Purity of bloodline. Total intolerance of weakness. The Raar massacre is not a source of shame here — it is a source of pride.</div></div>
+        <div><div class="helm-exp-label">Royal House</div><div class="helm-exp-value">House Mahrek — the royal family IS the clan IS the Helm. A Mahrek royal doesn't rule the Helm. They ARE Mahrek.</div></div>
+        <div><div class="helm-exp-label">Key Relationship</div><div class="helm-exp-value">Dominant presence in the World Order at Valdris. Their signature on the World Accord carries more weight than any other Helm's.</div></div>
+        <div><div class="helm-exp-label">The Curse</div><div class="helm-exp-value">The greatest shame possible on Mahrek. Cursed individuals are not treated — they are eliminated. No exceptions, including royals.</div></div>
+      </div>
+    </div>
+
+    <div id="helm-valdeen" class="helm-expanded">
+      <div class="helm-exp-grid">
+        <div><div class="helm-exp-label">Core Identity</div><div class="helm-exp-value">The deep water Helm. Named after the elemental feeling of depth — still on the surface, unknowable underneath.</div></div>
+        <div><div class="helm-exp-label">Cultural Character</div><div class="helm-exp-value">Patient. Deliberate. Slow to act but impossible to stop once moving. A culture that values knowledge over speed and depth over breadth.</div></div>
+        <div><div class="helm-exp-label">Royal House</div><div class="helm-exp-value">House Valdeen — ancient, secretive, rarely seen in public. Their Will abilities are rumored to be the most specialized of all royal lines.</div></div>
+        <div><div class="helm-exp-label">The Curse</div><div class="helm-exp-value">Handled privately and quietly. Valdeen does not publicize its curse management methods. This secrecy has generated considerable speculation.</div></div>
+        <div><div class="helm-exp-label">Special Feature</div><div class="helm-exp-value">Believed to have the deepest understanding of AUM theory of any non-Valdris Helm. Some scholars believe Valdeen's researchers have made discoveries they have not shared.</div></div>
+      </div>
+    </div>
+
+    <div id="helm-albireo" class="helm-expanded">
+      <div class="helm-exp-grid">
+        <div><div class="helm-exp-label">Core Identity</div><div class="helm-exp-value">Gold and blue. Two natures bound into one ascension. The most visually distinctive Helm in the sky.</div></div>
+        <div><div class="helm-exp-label">Cultural Character</div><div class="helm-exp-value">A civilization defined by duality — two founding peoples, two traditions, two approaches to Will. The tension between them is the engine of Albireo's history.</div></div>
+        <div><div class="helm-exp-label">The Curse</div><div class="helm-exp-value">Each of Albireo's two peoples approaches the curse differently. This division has caused internal conflict that makes Albireo's response to any crisis unpredictable.</div></div>
+      </div>
+    </div>
+
+    <div id="helm-longvael" class="helm-expanded">
+      <div class="helm-exp-grid">
+        <div><div class="helm-exp-label">Core Identity</div><div class="helm-exp-value">The dragon Helm. Old name, new world, same soul. Isolated even in its sacrifice — the Creator built alone and ascended alone.</div></div>
+        <div><div class="helm-exp-label">Cultural Character</div><div class="helm-exp-value">The most isolated civilization in the sky. Longvael has maintained near-total separation from the World Order for most of its history.</div></div>
+        <div><div class="helm-exp-label">Key Relationship</div><div class="helm-exp-value">Breaks its isolation only for trade with Zoryn — specifically for the rare metal that Zoryn alone possesses. This relationship is the only thread connecting Longvael to the wider world.</div></div>
+        <div><div class="helm-exp-label">Special Feature</div><div class="helm-exp-value">Signed the World Accord at ~800 A.A. — the only point in its history where Longvael voluntarily joined something larger than itself.</div></div>
+      </div>
+    </div>
+
+    <div id="helm-lorvaan" class="helm-expanded">
+      <div class="helm-exp-grid">
+        <div><div class="helm-exp-label">Core Identity</div><div class="helm-exp-value">Built by a few. Named after love. Still standing. The most unexpected Helm — nobody predicted it would survive its first century.</div></div>
+        <div><div class="helm-exp-label">Cultural Character</div><div class="helm-exp-value">A civilization that began with almost nothing and built itself into something remarkable. Lorvaan's culture prizes resilience and ingenuity above all.</div></div>
+        <div><div class="helm-exp-label">The Curse</div><div class="helm-exp-value">Lorvaan treats the curse with the same pragmatic resilience it applies to everything — as a problem to be solved, not a judgment to be endured.</div></div>
+      </div>
+    </div>
+
+    <div id="helm-valdris" class="helm-expanded">
+      <div class="helm-exp-grid">
+        <div><div class="helm-exp-label">Core Identity</div><div class="helm-exp-value">The only natural Helm. Capital of the known world. Where the World Order sits, where kings answer, where the law of all Helms is written and enforced.</div></div>
+        <div><div class="helm-exp-label">Cultural Character</div><div class="helm-exp-value">Political. Procedural. The most cosmopolitan civilization in the sky — every Helm has a permanent presence here. Valdris does not belong to one people. It belongs to the system.</div></div>
+        <div><div class="helm-exp-label">Special Feature</div><div class="helm-exp-value">The Historical Institute of Valdris — the body that compiled and verified the accepted historical record of the known world. What Valdris says happened, happened. This power is not incidental.</div></div>
+        <div><div class="helm-exp-label">The Curse</div><div class="helm-exp-value">Managed through the World Order's official medical and legal framework. Valdris sets the standard that all other Helms are expected — but not always required — to follow.</div></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- AUM -->
+<section id="aum" class="section">
+  <div class="container">
+    <div class="sec-label fade-in">The Language of Will</div>
+    <h2 class="sec-title fade-in">AUM</h2>
+    <p class="sec-sub fade-in">The Avogadro-Uhlenbeck-Meitner Particle. The substance inside all things.</p>
+    <div class="aum-block fade-in">
+      <div class="aum-quote">"The tissue samples from Subject R-7 continue to defy classification. Every cellular structure we understand is present. Every chemical process we recognize is occurring. And yet the energy readings at the subatomic level do not correspond to any model we brought with us from home. It is as if each atom in this creature contains something extra. Something we have no instrument sensitive enough to measure. Something that, I suspect, is not passive."<br><br><span style="font-family:var(--mono);font-size:.8rem;color:var(--text3);">— Dr. Asha Meitner-Vael, Personal Research Log, PMY 3</span></div>
+      <div class="aum-body">AUM is the subquantum substrate found in all matter on New Meridian — living and inert, native and non-native. It constitutes a universal information layer operating beneath the threshold of observable quantum mechanics. Volitional Force — commonly called Will — is not a phenomenon independent of AUM. It is the primary mechanism by which conscious entities interact with, read, and overwrite AUM-encoded reality.<br><br>The implications extend across physics, biology, neuroscience, and the nature of creation itself. The Creators did not merely build the Helms. They became them — their Will, permanently encoded into the AUM of each Helm's core, sustaining every life lived beneath their artificial skies.</div>
+    </div>
+    <div style="margin-top:1.5rem;" class="fade-in">
+      <table class="lore-table">
+        <thead><tr><th>Component</th><th>Honoree</th><th>Rationale</th></tr></thead>
+        <tbody>
+          <tr><td>A — Avogadro</td><td>Amedeo Avogadro (1776–1856)</td><td>Established that matter at its most basic level is composed of discrete countable units. His work gave science the language to ask: what is inside the unit?</td></tr>
+          <tr><td>U — Uhlenbeck</td><td>George Uhlenbeck (1900–1988)</td><td>Co-discoverer of electron spin — the first evidence that subatomic particles possess intrinsic properties that cannot be reduced to classical mechanics.</td></tr>
+          <tr><td>M — Meitner</td><td>Lise Meitner (1878–1968)</td><td>Pioneered nuclear fission research. Demonstrated that stable matter contains vast, transformative energy. Her exclusion from the Nobel Prize she deserved remains one of science history's most documented injustices.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- CODEX / METALS -->
+<section id="codex" class="section">
+  <div class="container">
+    <div class="sec-label fade-in">AUM Metallurgical Institute — Valdris</div>
+    <h2 class="sec-title fade-in">Catalogue of Catalyst Metals</h2>
+    <p class="sec-sub fade-in">Classification: Restricted. Materials whose AUM resonance affinity enables Volitional Force users to channel, amplify, and direct natural phenomena through Lance artifacts.</p>
+
+    <div style="display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:2rem;" class="fade-in">
+      <button class="class-btn active" data-class="all">All</button>
+      <button class="class-btn ignis" data-class="IGNIS">Ignis</button>
+      <button class="class-btn aqua" data-class="AQUA">Aqua</button>
+      <button class="class-btn terra" data-class="TERRA">Terra</button>
+      <button class="class-btn aero" data-class="AERO">Aero</button>
+      <button class="class-btn fulmen" data-class="FULMEN">Fulmen</button>
+      <button class="class-btn sono" data-class="SONO">Sono</button>
+      <button class="class-btn vita" data-class="VITA">Vita</button>
+      <button class="class-btn tempus" data-class="TEMPUS">Tempus</button>
+      <button class="class-btn void" data-class="VOID">Void</button>
+      <button class="class-btn animus" data-class="ANIMUS">Animus</button>
+      <button class="class-btn zorinium" data-class="ZORINIUM">◆ Zorinium</button>
+      <button class="class-btn elite" data-class="ELITE">✦ Elite</button>
+      <button class="class-btn dead" data-class="DEAD">☽ Dead</button>
+      <button class="class-btn hybrid" data-class="HYBRID">⬡ Hybrid</button>
+    </div>
+
+    <div id="metals-grid"></div>
+
+    <div style="margin-top:2rem;padding:1.25rem 1.5rem;background:var(--surface);border:1px solid var(--border);font-size:.85rem;color:var(--text3);line-height:1.8;" class="fade-in">
+      <span style="font-family:var(--mono);font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.5rem;">Research Notes</span>
+      Grade 6 is not an official classification — used solely to denote Zorinium's transcendence. Metals marked 'Unknown' origin have been recovered outside registered Helm territory, including the Planet Below. All Planet Below samples are classified as property of Valdris upon recovery. The Animus class requires High Command licensing at all grades. Dead metals carry no AUM resonance — they are historical artefacts. Elite metals encode pre-existing Will mastery. Hybrid and Special class metals sit outside standard classification.
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTERS -->
+<section id="chapters" class="section">
+  <div class="container">
+    <div class="sec-label fade-in">The Story</div>
+    <h2 class="sec-title fade-in">Chapters</h2>
+    <p class="sec-sub fade-in">Year 5000 A.A. A royal makes a move. The sky catches fire.</p>
+    <div class="chapters-coming fade-in">
+      <div class="big">I</div>
+      <p>The first chapter is coming.<br>The world is ready. The story begins soon.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-title">RAAR</div>
+  <div class="footer-sub">A novel by Naveen Vruk &nbsp;·&nbsp; raar.vrukx.com</div>
+  <br>
+  <a href="https://vrukx.com" class="footer-link">← vrukx.com</a>
+</footer>
+
+<script>
+// ============================================================
+// HELMS TOGGLE
+// ============================================================
+function toggleHelm(id){
+  const el=document.getElementById('helm-'+id);
+  const isOpen=el.classList.contains('open');
+  document.querySelectorAll('.helm-expanded').forEach(e=>e.classList.remove('open'));
+  if(!isOpen)el.classList.add('open');
+}
+
+// ============================================================
+// METALS DATA — EXPANDED V2
+// ============================================================
+const METALS = [
+  // IGNIS
+  {sym:'Ig',name:'Ignarite',grade:1,cls:'IGNIS',sub:'Ignis-Thermal',origin:'All Helms',affinity:'Basic sustained heat',use:'Entry fire Lance',rarity:'Abundant',notes:'Found in volcanic strata across all Helms. Every Mahrek child receives their first Ignarite Lance at age seven as a rite of passage.'},
+  {sym:'Cm',name:'Cormite',grade:2,cls:'IGNIS',sub:'Ignis-Thermal',origin:'Mahrek',affinity:'Sustained flame projection',use:'Military fire Lance',rarity:'Common',notes:'Burns orange at low Will, white at high intensity. Backbone of Mahrek\'s Lance manufacturing economy.'},
+  {sym:'Fh',name:'Ferroheit',grade:2,cls:'IGNIS',sub:'Ignis-Thermal',origin:'Calderon',affinity:'Heat transfer, metal superheating',use:'Industrial forge Lance',rarity:'Common',notes:'Used more in manufacturing than combat. Calderon\'s industrial sector depends on it.'},
+  {sym:'Br',name:'Brannite',grade:3,cls:'IGNIS',sub:'Ignis-Thermal',origin:'Mahrek',affinity:'Concentrated heat beam',use:'Precision fire Lance',rarity:'Uncommon',notes:'Produces a narrow sustained beam of extreme heat. Favored by Mahrek specialist units for precision demolition of fortifications.'},
+  {sym:'Vr',name:'Vrathium',grade:4,cls:'IGNIS',sub:'Ignis-Thermal',origin:'Mahrek',affinity:'Superheated Will projection',use:'Anti-armor Lance',rarity:'Rare',notes:'Burns hot enough to melt standard Terra-class shield Lances. Mahrek restricts Grade 4 Ignis metals strictly to royal military units.'},
+  {sym:'Sx',name:'Solarix',grade:5,cls:'IGNIS',sub:'Ignis-Thermal',origin:'Valdris',affinity:'Solar-level heat generation',use:'Strategic weapon',rarity:'Singular',notes:'Three confirmed deposits, all on Valdris. Classified by High Command. Can generate temperatures comparable to stellar surfaces.'},
+  {sym:'Pk',name:'Pyrokite',grade:1,cls:'IGNIS',sub:'Ignis-Combustion',origin:'Calderon',affinity:'Explosive force, detonation',use:'Demolition Lance',rarity:'Common',notes:'Produces explosive bursts rather than sustained flame. Calderon\'s mining operations consume more Pyrokite than any other Helm.'},
+  {sym:'Bst',name:'Blastite',grade:2,cls:'IGNIS',sub:'Ignis-Combustion',origin:'Mahrek',affinity:'Directed explosive force',use:'Combat explosive Lance',rarity:'Common',notes:'Detonation can be shaped by Will into sphere, cone, or directed blast. Mahrek defined modern explosive Lance warfare with it.'},
+  {sym:'Frc',name:'Fractium',grade:3,cls:'IGNIS',sub:'Ignis-Combustion',origin:'Calderon',affinity:'Shockwave, concussive force',use:'Shockwave Lance',rarity:'Uncommon',notes:'Produces concussive force without significant heat. Calderon\'s urban enforcement units favor it for crowd suppression.'},
+  {sym:'Det',name:'Detonite',grade:4,cls:'IGNIS',sub:'Ignis-Combustion',origin:'Mahrek',affinity:'Delayed Will-charge encoding',use:'Timed explosive Lance',rarity:'Rare',notes:'Holds an encoded Will-detonation pattern for up to 72 hours. Releases when encoded condition is met. Mahrek\'s most exported Grade 4 metal.'},
+  {sym:'Pyr',name:'Pyralite',grade:3,cls:'IGNIS',sub:'Ignis-Plasma',origin:'Calderon',affinity:'Plasma generation, ionized matter',use:'Plasma cutting Lance',rarity:'Uncommon',notes:'Burns blue-white at activation. Ionized state cuts through standard catalyst metals without resistance.'},
+  {sym:'Io',name:'Ionite',grade:3,cls:'IGNIS',sub:'Ignis-Plasma',origin:'Valdris',affinity:'Electromagnetic plasma',use:'Dual-class Lance',rarity:'Uncommon',notes:'Bridges Ignis and Fulmen. Valdris controls distribution. Produces plasma with electromagnetic properties.'},
+  {sym:'Lx',name:'Luxite',grade:2,cls:'IGNIS',sub:'Ignis-Radiant',origin:'Albireo',affinity:'Intense light, blinding radiance',use:'Blinding Lance',rarity:'Common',notes:'Albireo\'s Gold faction uses Luxite in ceremonial contexts. Focused burst causes temporary blindness.'},
+  {sym:'Sl2',name:'Solarnite',grade:3,cls:'IGNIS',sub:'Ignis-Radiant',origin:'Valdris',affinity:'Focused solar radiation',use:'Radiation Lance',rarity:'Uncommon',notes:'Causes biological damage independent of heat. Valdris restricts civilian access.'},
+  {sym:'Em',name:'Embrite',grade:2,cls:'IGNIS',sub:'Ignis-Radiant',origin:'Lorvaan',affinity:'Warm light, biological warmth',use:'Medical warmth Lance',rarity:'Common',notes:'Produces light in a frequency that stimulates Vita-class AUM resonance. Used in combination with Mendium for accelerated healing.'},
+  // AQUA
+  {sym:'Aq',name:'Aquirite',grade:1,cls:'AQUA',sub:'Aqua-Flow',origin:'All Helms',affinity:'Water direction, basic flow',use:'Civilian water Lance',rarity:'Abundant',notes:'Most common civilian Lance after Ignarite. Agricultural use far exceeds military application across the Eight Helms.'},
+  {sym:'Td',name:'Tidralite',grade:2,cls:'AQUA',sub:'Aqua-Flow',origin:'Lorvaan',affinity:'Current generation, pressure waves',use:'Pressure Lance',rarity:'Common',notes:'Lorvaan\'s primary export metal. Their Helm\'s unusual water distribution makes Tidralite particularly pure.'},
+  {sym:'Rp',name:'Rapidite',grade:2,cls:'AQUA',sub:'Aqua-Flow',origin:'Calderon',affinity:'Fluid acceleration, water jet',use:'High-pressure Lance',rarity:'Common',notes:'Produces high-velocity cutting water jets. Calderon\'s industrial sector uses it for precision cutting.'},
+  {sym:'Cv',name:'Currentite',grade:3,cls:'AQUA',sub:'Aqua-Flow',origin:'Valdeen',affinity:'Complex fluid manipulation',use:'Environmental Lance',rarity:'Uncommon',notes:'Valdeen scholars discovered Currentite manipulates any fluid, not just water. Blood. Oil. Atmospheric moisture. Immediately classified by Valdris.'},
+  {sym:'Ab',name:'Abyssium',grade:4,cls:'AQUA',sub:'Aqua-Flow',origin:'Valdeen',affinity:'Crushing pressure fields',use:'Pressure field Lance',rarity:'Rare',notes:'Generates crushing pressure equivalent to extreme ocean depth. Valdeen\'s most guarded export.'},
+  {sym:'Nl',name:'Nulltide',grade:5,cls:'AQUA',sub:'Aqua-Flow',origin:'Valdeen',affinity:'Complete moisture control',use:'Strategic water Lance',rarity:'Singular',notes:'Can extract water from atmospheric moisture even in desert conditions. Valdeen has never exported a single gram.'},
+  {sym:'Gl',name:'Glacium',grade:2,cls:'AQUA',sub:'Aqua-Ice',origin:'Valdeen',affinity:'Ice formation, cold projection',use:'Ice Lance',rarity:'Common',notes:'Valdeen\'s most studied metal. Their scholarly tradition has produced more research papers on Glacium than any other Helm has on any single metal.'},
+  {sym:'Cr',name:'Crystite',grade:3,cls:'AQUA',sub:'Aqua-Ice',origin:'Zoryn',affinity:'Structural ice formation',use:'Construction ice Lance',rarity:'Uncommon',notes:'Zoryn\'s deep cold produces uniquely structured Crystite. Ice formed through it has 40% higher structural integrity than natural ice.'},
+  {sym:'Fz',name:'Frozite',grade:4,cls:'AQUA',sub:'Aqua-Ice',origin:'Valdeen',affinity:'Approach absolute zero',use:'Cryogenic Lance',rarity:'Rare',notes:'Matter frozen through Frozite becomes extremely brittle. A standard Terra Lance shatters it with minimal force.'},
+  {sym:'Hd',name:'Hydralite',grade:3,cls:'AQUA',sub:'Aqua-Pressure',origin:'Lorvaan',affinity:'Hydraulic force, incompressible fields',use:'Hydraulic Lance',rarity:'Uncommon',notes:'Produces incompressible fluid pressure fields. Nothing passes through without the Will to overcome it.'},
+  {sym:'Dp',name:'Depthite',grade:4,cls:'AQUA',sub:'Aqua-Pressure',origin:'Valdeen',affinity:'Gravitational water force',use:'Deep pressure Lance',rarity:'Rare',notes:'Valdeen\'s enforcement division carries Depthite as standard heavy weapon.'},
+  {sym:'Mv',name:'Marevite',grade:1,cls:'AQUA',sub:'Aqua-Pressure',origin:'Calderon',affinity:'Gentle flow, irrigation',use:'Agricultural Lance',rarity:'Abundant',notes:'The most widely used agricultural Lance metal. Calderon exports more Marevite than any other metal.'},
+  {sym:'Bth',name:'Bathite',grade:2,cls:'AQUA',sub:'Aqua-Ice',origin:'Valdeen',affinity:'Rapid temperature reduction',use:'Cooling Lance',rarity:'Common',notes:'Used extensively in Valdeen\'s medical facilities for rapid cooling of biological tissue.'},
+  // TERRA
+  {sym:'Tr',name:'Terranite',grade:1,cls:'TERRA',sub:'Terra-Stone',origin:'All Helms',affinity:'Basic earth, stone shaping',use:'Construction Lance',rarity:'Abundant',notes:'The most common structural metal across all Helms. Every Helm\'s infrastructure was built through Terranite Lances over 5000 years.'},
+  {sym:'Sk',name:'Stonkrite',grade:2,cls:'TERRA',sub:'Terra-Stone',origin:'Calderon',affinity:'Geological force, rock projection',use:'Combat stone Lance',rarity:'Common',notes:'Calderon\'s mining operations produce more Stonkrite than any other Helm. Their construction industry is the largest in the Eight Helms.'},
+  {sym:'Gn',name:'Granitium',grade:3,cls:'TERRA',sub:'Terra-Stone',origin:'Mahrek',affinity:'Dense stone formation, barriers',use:'Defensive Lance',rarity:'Uncommon',notes:'Stone formed through Granitium is 60% denser than natural granite. Mahrek\'s fortification technology is considered the standard of military architecture.'},
+  {sym:'Bd',name:'Bedrock',grade:4,cls:'TERRA',sub:'Terra-Stone',origin:'Zoryn',affinity:'Geological anchoring, immovability',use:'Anchor Lance',rarity:'Rare',notes:'Anchors an object or person to a surface with the weight of geological strata. Cannot be overcome without equivalent Will.'},
+  {sym:'Kr',name:'Korrath',grade:5,cls:'TERRA',sub:'Terra-Stone',origin:'Planet Below',affinity:'Complete geological control',use:'Terrain Lance',rarity:'Singular',notes:'Three samples recovered from the Planet Below. The surface civilization appears to use Korrath routinely. Concerns Valdris\'s High Command significantly.'},
+  {sym:'Gv',name:'Gravium',grade:2,cls:'TERRA',sub:'Terra-Metal',origin:'Zoryn',affinity:'Density manipulation, weight amplification',use:'Density Lance',rarity:'Common',notes:'Zoryn\'s second most valuable export after Zorinium. Amplifies or reduces the apparent weight of objects.'},
+  {sym:'Dm',name:'Denmite',grade:4,cls:'TERRA',sub:'Terra-Metal',origin:'Mahrek',affinity:'Metal-on-metal AUM disruption',use:'Armor-piercing Lance',rarity:'Rare',notes:'Disrupts the AUM resonance of metal alloys on contact, causing structural collapse. Mahrek keeps production entirely internal.'},
+  {sym:'Cr2',name:'Corrite',grade:2,cls:'TERRA',sub:'Terra-Metal',origin:'Calderon',affinity:'Metal shaping, alloy influence',use:'Metallurgy Lance',rarity:'Common',notes:'Calderon\'s master metallurgists use Corrite to shape metals with Will precision impossible through conventional forging.'},
+  {sym:'Fn',name:'Ferronite',grade:3,cls:'TERRA',sub:'Terra-Metal',origin:'Mahrek',affinity:'Magnetic metal attraction',use:'Retrieval Lance',rarity:'Uncommon',notes:'Creates strong magnetic attraction between metals. Military application: disarming opponents by pulling their Lance from their hands.'},
+  {sym:'Sd',name:'Sandrite',grade:1,cls:'TERRA',sub:'Terra-Dust',origin:'Calderon',affinity:'Particle manipulation, dust storms',use:'Environmental Lance',rarity:'Common',notes:'Produces fine particle clouds from existing soil. Blinding, suffocating, abrasive.'},
+  {sym:'As',name:'Ashite',grade:2,cls:'TERRA',sub:'Terra-Dust',origin:'Mahrek',affinity:'Ash projection, residue fields',use:'Suppression Lance',rarity:'Common',notes:'Produces dense ash clouds that absorb light and AUM resonance. Used by Mahrek to suppress enemy Lance effectiveness.'},
+  {sym:'Md',name:'Mudite',grade:1,cls:'TERRA',sub:'Terra-Dust',origin:'Lorvaan',affinity:'Mud, adhesive earth',use:'Restraint Lance',rarity:'Abundant',notes:'Lorvaan\'s enforcers favor Mudite for non-lethal restraint. Produces adhesive mud that hardens within seconds. Dissolves with Aqua-class application.'},
+  // AERO
+  {sym:'Ae',name:'Aerite',grade:1,cls:'AERO',sub:'Aero-Wind',origin:'All Helms',affinity:'Wind direction, air currents',use:'Basic wind Lance',rarity:'Abundant',notes:'The lightest catalyst metal known. Found wherever atmospheric AUM is dense — typically high-altitude regions. Used in early flight experiments.'},
+  {sym:'Zp',name:'Zephirum',grade:2,cls:'AERO',sub:'Aero-Wind',origin:'Albireo',affinity:'Pressure differential, vacuum',use:'Elegant wind Lance',rarity:'Common',notes:'Albireo\'s Blue faction considers Zephirum the most elegant Lance metal. Produces precise pressure differentials rather than brute wind force.'},
+  {sym:'Gst',name:'Galesite',grade:3,cls:'AERO',sub:'Aero-Wind',origin:'Calderon',affinity:'Storm-force wind generation',use:'Storm Lance',rarity:'Uncommon',notes:'At full Will, produces storm-force winds in a directed cone. Calderon\'s aerial defense units carry Galesite as standard equipment.'},
+  {sym:'Cy',name:'Cyclonium',grade:4,cls:'AERO',sub:'Aero-Wind',origin:'Albireo',affinity:'Tornado-level force, oxygen denial',use:'Area denial Lance',rarity:'Rare',notes:'Can generate sustained tornado-force fields that deny oxygen to enclosed spaces. Albireo Gold faction contests its export.'},
+  {sym:'Vd',name:'Voidraft',grade:5,cls:'AERO',sub:'Aero-Wind',origin:'Valdris',affinity:'Complete atmospheric control',use:'Strategic atmospheric Lance',rarity:'Singular',notes:'Can generate or completely eliminate atmosphere in a defined space. Classified. Valdris\'s atmospheric research division is the only authorized user.'},
+  {sym:'Lft',name:'Liftite',grade:2,cls:'AERO',sub:'Aero-Lift',origin:'Zoryn',affinity:'Upward force, levitation',use:'Lift Lance',rarity:'Common',notes:'Zoryn developed Liftite for inter-Helm transport engineering. The basis of early flight vehicle technology across all Helms.'},
+  {sym:'Flt',name:'Floatite',grade:1,cls:'AERO',sub:'Aero-Lift',origin:'Calderon',affinity:'Weight reduction, buoyancy',use:'Buoyancy Lance',rarity:'Common',notes:'Reduces apparent weight of objects. Used extensively in Calderon\'s cargo transport industry.'},
+  {sym:'Th',name:'Thrusite',grade:3,cls:'AERO',sub:'Aero-Lift',origin:'Mahrek',affinity:'Directed thrust, propulsion',use:'Propulsion Lance',rarity:'Uncommon',notes:'Produces directed thrust in any orientation. Mahrek\'s fastest military vehicles are Thrusite-propelled.'},
+  {sym:'Vac',name:'Vacite',grade:3,cls:'AERO',sub:'Aero-Vacuum',origin:'Valdeen',affinity:'Vacuum pocket generation',use:'Vacuum Lance',rarity:'Uncommon',notes:'Creates localized vacuum pockets. Objects passing through lose momentum. Sound cannot propagate. Used in Valdeen\'s sensitive AUM experiment containment.'},
+  {sym:'Sm',name:'Suffocite',grade:4,cls:'AERO',sub:'Aero-Vacuum',origin:'Unknown',affinity:'Targeted oxygen removal',use:'Asphyxiation Lance',rarity:'Rare',notes:'Considered a prohibited weapon under the World Accord. All known samples confiscated by Valdris. Suspected ongoing production by unknown parties.'},
+  {sym:'Br2',name:'Breathite',grade:1,cls:'AERO',sub:'Aero-Vacuum',origin:'Lorvaan',affinity:'Air purification, toxin removal',use:'Medical Lance',rarity:'Common',notes:'Lorvaan\'s healers use Breathite to purify contaminated air around patients. The only Aero-class metal with primarily medical applications.'},
+  // FULMEN
+  {sym:'Fl',name:'Fulmite',grade:1,cls:'FULMEN',sub:'Fulmen-Electrical',origin:'All Helms',affinity:'Basic electrical channeling',use:'Static Lance',rarity:'Abundant',notes:'First discovered by accident during a lightning strike in early post-Ascension years. Makes no sound when struck against metal — considered uncanny.'},
+  {sym:'Mg',name:'Magnium',grade:2,cls:'FULMEN',sub:'Fulmen-Magnetic',origin:'Longvael',affinity:'Magnetic field generation',use:'Magnetic Lance',rarity:'Common',notes:'Longvael exports small amounts carefully. Their enforcement faction in Valdris uses Magnium almost exclusively. The magnetic properties interact unusually with Zorinium.'},
+  {sym:'Thr',name:'Thralite',grade:3,cls:'FULMEN',sub:'Fulmen-Electrical',origin:'Mahrek',affinity:'High-voltage discharge, EMP',use:'EMP Lance',rarity:'Uncommon',notes:'Mahrek combines Thralite with Cormite for their signature fire-lightning combat style. The EMP can temporarily disable Corval connections in a radius.'},
+  {sym:'Pk2',name:'Peakium',grade:4,cls:'FULMEN',sub:'Fulmen-Electrical',origin:'Longvael',affinity:'Lightning storm generation',use:'Storm Lance',rarity:'Rare',notes:'Longvael never exports Grade 4 Fulmen metals. Peakium storms can disable Corval nodes — which is why Valdris tracks Longvael\'s production carefully.'},
+  {sym:'Ar',name:'Arcanum',grade:5,cls:'FULMEN',sub:'Fulmen-Electrical',origin:'Valdris',affinity:'AUM coherence disruption',use:'Anti-Lance weapon',rarity:'Singular',notes:'Disrupts AUM coherence in enemy Lances on contact, rendering them inert. Most feared anti-Lance metal known. All deposits on Valdris. Export categorically prohibited.'},
+  {sym:'Sp',name:'Sparkite',grade:1,cls:'FULMEN',sub:'Fulmen-Electrical',origin:'Calderon',affinity:'Static generation, minor shock',use:'Non-lethal Lance',rarity:'Abundant',notes:'Calderon\'s civilian enforcement uses Sparkite for non-lethal crowd management. Produces painful but non-damaging electrical discharge.'},
+  {sym:'Cd',name:'Conductite',grade:2,cls:'FULMEN',sub:'Fulmen-Electrical',origin:'Zoryn',affinity:'Electrical channeling, efficiency',use:'Enhancement Lance',rarity:'Common',notes:'Increases the efficiency of other Fulmen-class Lances when used in conjunction. Discovered during Zorinium refinement research. Properties in combination with Zorinium are classified.'},
+  {sym:'At',name:'Attractite',grade:3,cls:'FULMEN',sub:'Fulmen-Magnetic',origin:'Longvael',affinity:'Object attraction, precise control',use:'Precision magnetic Lance',rarity:'Uncommon',notes:'Longvael\'s most exported metal aside from Magnium. Produces fine-control magnetic fields capable of moving objects with surgical precision.'},
+  {sym:'Rp2',name:'Repulsium',grade:3,cls:'FULMEN',sub:'Fulmen-Magnetic',origin:'Albireo',affinity:'Magnetic repulsion, force shields',use:'Shield Lance',rarity:'Uncommon',notes:'Albireo\'s Blue faction engineers developed Repulsium shield applications. A Repulsium field deflects metal objects. Against Zorinium-tipped projectiles it is ineffective.'},
+  {sym:'Pls',name:'Pulsium',grade:4,cls:'FULMEN',sub:'Fulmen-Electrical',origin:'Valdris',affinity:'Rhythmic pulse generation',use:'Neural disruption Lance',rarity:'Rare',notes:'Produces electrical pulses calibrated to disrupt neural AUM coherence. Permanent cognitive damage at Grade 4. Restricted.'},
+  {sym:'Sh',name:'Shieldite',grade:2,cls:'FULMEN',sub:'Fulmen-Magnetic',origin:'Mahrek',affinity:'Electromagnetic shielding',use:'Defensive Lance',rarity:'Common',notes:'Creates an electromagnetic barrier that dissipates incoming electrical discharge. Mahrek developed it to protect against Fulmen-class Lance attacks.'},
+  // SONO
+  {sym:'Sn',name:'Sonarite',grade:1,cls:'SONO',sub:'Sono-Sound',origin:'All Helms',affinity:'Sound amplification, direction',use:'Communication Lance',rarity:'Abundant',notes:'Makes no sound when struck — considered deeply uncanny by most users. The first metal used for long-distance communication before the AUM-Chain was established.'},
+  {sym:'Rs',name:'Resonite',grade:2,cls:'SONO',sub:'Sono-Vibration',origin:'Lorvaan',affinity:'Structural vibration, cracking',use:'Structural Lance',rarity:'Common',notes:'Lorvaan\'s Helm has unusual acoustic properties that produce uniquely resonant Resonite. Can crack stone walls through sustained frequency application.'},
+  {sym:'Fr',name:'Fractite',grade:3,cls:'SONO',sub:'Sono-Vibration',origin:'Valdeen',affinity:'Targeted frequency, organ disruption',use:'Medical/combat Lance',rarity:'Uncommon',notes:'Valdeen\'s medical researchers discovered its biological applications before military ones. At low intensity: therapeutic. At high: internal organ disruption without external wounds.'},
+  {sym:'Sl',name:'Silentum',grade:4,cls:'SONO',sub:'Sono-Silence',origin:'Unknown',affinity:'Complete sound elimination',use:'Silence field Lance',rarity:'Rare',notes:'Origin disputed — some records suggest first recovered from the Planet Below. Creates absolute silence fields. Nothing moves through a Silentum field acoustically.'},
+  {sym:'Ev',name:'Evocite',grade:5,cls:'SONO',sub:'Sono-AUM',origin:'Valdris',affinity:'AUM frequency resonance, Will disruption',use:'Will-disruption Lance',rarity:'Singular',notes:'Can interrupt another person\'s Will coherence mid-use. The only Sono metal that operates at AUM frequency directly. Most dangerous Sono metal in existence.'},
+  {sym:'Hm',name:'Harmite',grade:2,cls:'SONO',sub:'Sono-Sound',origin:'Lorvaan',affinity:'Harmonic resonance, emotional influence',use:'Resonance Lance',rarity:'Common',notes:'Produces harmonics that influence emotional AUM states. Military application exists but Lorvaan refuses to develop it.'},
+  {sym:'Sc',name:'Screechite',grade:2,cls:'SONO',sub:'Sono-Sound',origin:'Mahrek',affinity:'Painful frequency generation',use:'Disorientation Lance',rarity:'Common',notes:'Produces frequencies calibrated to cause pain and disorientation without permanent damage. Mahrek\'s rapid-deployment units use it for initial combat disorientation.'},
+  {sym:'Bs',name:'Bassium',grade:3,cls:'SONO',sub:'Sono-Vibration',origin:'Calderon',affinity:'Low-frequency ground vibration',use:'Tremor Lance',rarity:'Uncommon',notes:'Produces low-frequency vibrations that propagate through solid surfaces. Can destabilize foundations, disrupt footing, and trigger avalanche conditions.'},
+  {sym:'Wh',name:'Whisperite',grade:1,cls:'SONO',sub:'Sono-Silence',origin:'Valdeen',affinity:'Sound dampening, stealth',use:'Stealth Lance',rarity:'Common',notes:'Valdeen\'s scholarly tradition values silence. Used extensively in their research facilities to create noise-controlled environments. Military application: sound suppression.'},
+  {sym:'Ec',name:'Echoite',grade:3,cls:'SONO',sub:'Sono-Sound',origin:'Albireo',affinity:'Sound recording, playback',use:'Memory Lance',rarity:'Uncommon',notes:'Can record and replay sounds with perfect fidelity. Albireo\'s legal system uses Echoite recordings as evidence. Disputed by other Helms who argue Will can alter recordings.'},
+  {sym:'Cn',name:'Concussium',grade:4,cls:'SONO',sub:'Sono-Vibration',origin:'Mahrek',affinity:'Concussive sonic force',use:'Sonic weapon Lance',rarity:'Rare',notes:'At Grade 4, capable of rupturing eardrums and causing unconsciousness at range without any visible projectile.'},
+  // VITA
+  {sym:'Vt',name:'Vitarite',grade:1,cls:'VITA',sub:'Vita-Healing',origin:'All Helms',affinity:'Basic healing, wound acceleration',use:'Medical Lance',rarity:'Abundant',notes:'Most civilian-used class. Medical Lancers use Grade 1 Vitarite daily. The most underfunded research class despite being the most universally needed.'},
+  {sym:'Mn',name:'Mendium',grade:2,cls:'VITA',sub:'Vita-Healing',origin:'Lorvaan',affinity:'Tissue regeneration, infection control',use:'Regeneration Lance',rarity:'Common',notes:'Lorvaan produces more Mendium healers than any other Helm. Their medical tradition is considered the most advanced in the Eight Helms.'},
+  {sym:'Bln',name:'Blenite',grade:3,cls:'VITA',sub:'Vita-Decay',origin:'Calderon',affinity:'Accelerated decay, biological disruption',use:'Decay Lance',rarity:'Uncommon',notes:'The controversial side of Vita metals. Lorvaan has formally protested its development three times at the World Council.'},
+  {sym:'Nx',name:'Nexorite',grade:4,cls:'VITA',sub:'Vita-Neural',origin:'Valdeen',affinity:'Neural AUM interaction',use:'Neural Lance',rarity:'Rare',notes:'Can stimulate or suppress Will activity in a subject. Valdeen keeps Nexorite research entirely classified. Its implications for Corval override are significant.'},
+  {sym:'Og',name:'Origium',grade:5,cls:'VITA',sub:'Vita-Life',origin:'Unknown',affinity:'Life force manipulation',use:'Life Lance',rarity:'Singular',notes:'Considered mythology by most mainstream scientists. Ancient texts describe its use by the Queen. No confirmed sample has ever been submitted for scientific analysis.'},
+  {sym:'Gs',name:'Growsite',grade:1,cls:'VITA',sub:'Vita-Growth',origin:'All Helms',affinity:'Plant growth, agricultural boost',use:'Agricultural Lance',rarity:'Abundant',notes:'Alongside Marevite, Growsite is the foundation of the Eight Helms\' agricultural systems. Without it, feeding sky populations would be significantly more difficult.'},
+  {sym:'Pt',name:'Painate',grade:2,cls:'VITA',sub:'Vita-Pain',origin:'Unknown',affinity:'Pain amplification, nerve stimulation',use:'Interrogation Lance',rarity:'Common',notes:'Valdris has attempted to classify it three times. Black market availability is significant.'},
+  {sym:'Nt',name:'Nutrisite',grade:1,cls:'VITA',sub:'Vita-Growth',origin:'Lorvaan',affinity:'Accelerated biological growth',use:'Growth Lance',rarity:'Common',notes:'Lorvaan developed Nutrisite for medical applications — accelerating recovery from malnutrition. Has since been adapted for agricultural intensification.'},
+  {sym:'Px',name:'Proxite',grade:3,cls:'VITA',sub:'Vita-Neural',origin:'Valdeen',affinity:'Consciousness proximity sensing',use:'Awareness Lance',rarity:'Uncommon',notes:'Allows the user to sense living neural AUM signatures in proximity. Valdeen\'s scholars use Proxite in population studies. Military application is obvious.'},
+  {sym:'Vc',name:'Vexite',grade:4,cls:'VITA',sub:'Vita-Decay',origin:'Unknown',affinity:'Accelerated aging, cellular breakdown',use:'Bio-weapon Lance',rarity:'Rare',notes:'Prohibited under the World Accord. All known samples destroyed — officially. Three Helms are suspected of maintaining classified stockpiles.'},
+  {sym:'Rj',name:'Rejuvite',grade:3,cls:'VITA',sub:'Vita-Healing',origin:'Lorvaan',affinity:'Deep cellular restoration',use:'Restoration Lance',rarity:'Uncommon',notes:'Goes beyond surface healing to restore cellular AUM coherence at depth. Results are inconsistent but occasionally extraordinary.'},
+  // TEMPUS
+  {sym:'Tp',name:'Tempite',grade:1,cls:'TEMPUS',sub:'Tempus-Perception',origin:'Rare',affinity:'Marginal time perception boost',use:'Reflex Lance',rarity:'Rare',notes:'Even Grade 1 Tempus metals are rarer than Grade 4 metals of most other classes. A Tempite Lance is a significant luxury purchase even for experienced Lancers.'},
+  {sym:'Chr',name:'Chronate',grade:2,cls:'TEMPUS',sub:'Tempus-Dilation',origin:'Valdris',affinity:'Local time dilation',use:'Tactical Lance',rarity:'Very Rare',notes:'Valdris prohibits all export completely. Local time acceleration or deceleration in small areas. Combat application: slow an opponent\'s Lance mid-flight.'},
+  {sym:'Mn2',name:'Mnemite',grade:3,cls:'TEMPUS',sub:'Tempus-Memory',origin:'Valdeen',affinity:'Memory access, suppressed recall',use:'Memory Lance',rarity:'Ext. Rare',notes:'Can surface suppressed or lost memories in a subject. One of Valdeen\'s most significant political leverages. Their possession of Grade 3 Mnemite is an open secret at the World Council.'},
+  {sym:'Rv',name:'Revasite',grade:4,cls:'TEMPUS',sub:'Tempus-Reversal',origin:'Unknown',affinity:'Localized time reversal',use:'Reversal Lance',rarity:'Near Singular',notes:'Two confirmed samples. Location classified at highest level of High Command. Can reverse small objects or areas by seconds. Implications for evidence and accountability are enormous.'},
+  {sym:'Kx',name:'Kronexite',grade:5,cls:'TEMPUS',sub:'Tempus-Control',origin:'Unknown',affinity:'True temporal manipulation',use:'Unknown',rarity:'Theoretical',notes:'Whether Kronexite exists is the most debated question in Valdris\'s scientific community. Ancient texts describe temporal manipulation during the Queen\'s era that no known metal can explain.'},
+  {sym:'Dj',name:'Dejite',grade:2,cls:'TEMPUS',sub:'Tempus-Perception',origin:'Unknown',affinity:'Déjà-vu induction, loop perception',use:'Disorientation Lance',rarity:'Rare',notes:'Produces temporal perception distortion in subjects — the sensation of experiencing moments twice. Deeply disorienting in combat. Suspected black market production.'},
+  {sym:'Ag',name:'Agite',grade:2,cls:'TEMPUS',sub:'Tempus-Dilation',origin:'Valdris',affinity:'Subjective time acceleration',use:'Tactical Lance',rarity:'Very Rare',notes:'Accelerates the user\'s subjective experience of time — they think and react faster while the world seems slower. Valdris restricts this to their highest command units.'},
+  {sym:'Pg',name:'Perpetite',grade:3,cls:'TEMPUS',sub:'Tempus-Loop',origin:'Unknown',affinity:'Moment repetition, echo creation',use:'Tactical Lance',rarity:'Ext. Rare',notes:'Creates echoes of recent actions — physical after-images that repeat a motion. Used to deceive opponents about position and intent. Only three Lancers in recorded history have used it.'},
+  // VOID
+  {sym:'Vo',name:'Vorite',grade:1,cls:'VOID',sub:'Void-Gravity',origin:'Valdris',affinity:'Local gravity adjustment',use:'Gravity Lance',rarity:'Very Rare',notes:'Even the most common Void metal requires Valdris clearance to purchase. Vorite weight nullification is the basis of early inter-Helm transport vehicle design.'},
+  {sym:'Gx',name:'Gravexite',grade:2,cls:'VOID',sub:'Void-Gravity',origin:'Unknown',affinity:'Gravitational field generation',use:'Gravity field Lance',rarity:'Ext. Rare',notes:'Three samples recovered. All held by Valdris. Produces gravitational attraction and repulsion fields at range. Origin entirely unknown.'},
+  {sym:'Lm',name:'Lumenite',grade:3,cls:'VOID',sub:'Void-Light',origin:'Unknown',affinity:'Light manipulation, concealment',use:'Stealth Lance',rarity:'Near Singular',notes:'Longvael is rumored to possess Lumenite samples. They have neither confirmed nor denied this in four separate World Council inquiries. Complete optical concealment at Grade 3.'},
+  {sym:'Nx2',name:'Nullexite',grade:4,cls:'VOID',sub:'Void-Space',origin:'Unknown',affinity:'Spatial distortion',use:'Distortion Lance',rarity:'Singular',notes:'One confirmed sample in Valdris\'s highest security vault. Can bend the path of objects and Will projections. The physics of how it achieves this are not understood.'},
+  {sym:'Ab2',name:'Absolvite',grade:5,cls:'VOID',sub:'Void-Space',origin:'Unknown',affinity:'Complete spatial control',use:'Unknown',rarity:'Theoretical',notes:'Some researchers believe Absolvite exists on the Planet Below based on movement patterns of the surface civilization that cannot be explained by any known metal.'},
+  {sym:'Dn',name:'Densium',grade:2,cls:'VOID',sub:'Void-Gravity',origin:'Valdris',affinity:'Local density field manipulation',use:'Density Lance',rarity:'Very Rare',notes:'Creates localized density fields. Objects entering the field become proportionally heavier or lighter. Valdris uses Densium in their containment facilities.'},
+  {sym:'Sh2',name:'Shiftite',grade:3,cls:'VOID',sub:'Void-Space',origin:'Unknown',affinity:'Short-range spatial displacement',use:'Displacement Lance',rarity:'Ext. Rare',notes:'Produces small spatial displacements — objects are moved without passing through the intervening space. Range at Grade 3: approximately one meter. Implications for security are significant.'},
+  {sym:'Wp',name:'Warpite',grade:4,cls:'VOID',sub:'Void-Space',origin:'Unknown',affinity:'Larger spatial displacement',use:'Transport Lance',rarity:'Near Singular',notes:'Theoretically produces displacements of several meters. No confirmed Grade 4 sample. Existence inferred from theoretical extrapolation of Shiftite.'},
+  // ANIMUS
+  {sym:'An',name:'Animite',grade:1,cls:'ANIMUS',sub:'Animus-Will',origin:'Valdris',affinity:'Mild Will amplification',use:'Will enhancement Lance',rarity:'Restricted',notes:'Requires High Command license at Grade 1. All sales tracked through AUM-Chain. Any unauthorized possession is a World Accord violation with immediate consequences.'},
+  {sym:'Sx',name:'Soulexite',grade:2,cls:'ANIMUS',sub:'Animus-Will',origin:'Valdris',affinity:'Will range extension, AUM coherence',use:'Military Lance',rarity:'Classified',notes:'Issued exclusively to Valdris-authorized military units. Extends Will projection range beyond what Grade 5 catalyst metals achieve.'},
+  {sym:'Cm2',name:'Coreminite',grade:3,cls:'ANIMUS',sub:'Animus-AUM',origin:'Unknown',affinity:'Direct AUM rewriting without affinity',use:'Universal Lance',rarity:'Classified',notes:'Existence officially denied by High Command. Rumored to be present in the Chamber\'s conduit system. If confirmed, it would mean the Chamber operates on Animus-class principles.'},
+  {sym:'Wl',name:'Willstone',grade:4,cls:'ANIMUS',sub:'Animus-Will',origin:'Unknown',affinity:'Permanent Will pattern encoding',use:'Creation Lance',rarity:'Classified',notes:'The theoretical basis for how the Creators built the Helms. An encoded Will pattern persists in the material indefinitely after the encoder\'s death.'},
+  {sym:'Sx3',name:'Soulaxis',grade:5,cls:'ANIMUS',sub:'Animus-AUM',origin:'Unknown',affinity:'Complete AUM dominion',use:'Unknown',rarity:'Mythological',notes:'Ancient texts describe Soulaxis as the material through which the Queen shaped this universe. No scientific evidence it is a metal at all. Some researchers classify it as a state rather than a substance.'},
+  {sym:'Cl',name:'Clarionite',grade:2,cls:'ANIMUS',sub:'Animus-Consciousness',origin:'Valdris',affinity:'Consciousness clarity, focus boost',use:'Focus Lance',rarity:'Restricted',notes:'Issued to Valdris\'s highest-level scholars and strategists. Produces extraordinary mental clarity and focus. Extended use leads to dependency. This effect is documented but not publicly disclosed.'},
+  {sym:'Bl',name:'Bondite',grade:3,cls:'ANIMUS',sub:'Animus-Will',origin:'Unknown',affinity:'Will-link between two users',use:'Link Lance',rarity:'Classified',notes:'Creates a temporary shared Will-coherence state between two users. They can sense each other\'s intent. Valdris classifies all research into Bondite. The implications for the Corval are obvious.'},
+  // ZORINIUM
+  {sym:'Zr',name:'Zorinium',grade:6,cls:'ZORINIUM',sub:'Transcendent',origin:'Zoryn ONLY',affinity:'All affinities — no friction between Will and nature',use:'Freedom Lance',rarity:'Singular',notes:'Every gram tracked by High Command. The only metal that does not catalyze — it unifies. The boundary between user, metal, and element dissolves entirely. The only limitation is the user themselves.'},
+  // ELITE
+  {sym:'El-I',name:'Ignis Sovereign',grade:'ELITE',cls:'ELITE',sub:'Elite-Ignis',origin:'Valdris',affinity:'Pre-encoded master fire Will',use:'Master-tier fire Lance',rarity:'Exceptional',notes:'Encodes the cumulative fire-Will mastery of seven generations of Mahrek and Valdris fire masters. The ceiling was set 800 years ago. No subsequent master has surpassed the encoded pattern.'},
+  {sym:'El-A',name:'Aqua Sovereign',grade:'ELITE',cls:'ELITE',sub:'Elite-Aqua',origin:'Valdris',affinity:'Pre-encoded master water Will',use:'Master-tier water Lance',rarity:'Exceptional',notes:'Developed in partnership with Valdeen\'s greatest water scholars over 400 years. The encoded patterns include Nulltide-level moisture control within a defined range.'},
+  {sym:'El-T',name:'Terra Sovereign',grade:'ELITE',cls:'ELITE',sub:'Elite-Terra',origin:'Valdris',affinity:'Pre-encoded master earth Will',use:'Master-tier earth Lance',rarity:'Exceptional',notes:'The original encoding was completed by the legendary Lancer Draeven Korrath in Year 2,200 A.A. His encoded Will pattern has never been surpassed.'},
+  {sym:'El-W',name:'Aero Sovereign',grade:'ELITE',cls:'ELITE',sub:'Elite-Aero',origin:'Valdris',affinity:'Pre-encoded master wind Will',use:'Master-tier wind Lance',rarity:'Exceptional',notes:'Encoding was disputed — Albireo\'s two factions each submitted competing patterns. The current Aero Sovereign uses a composite of both, which neither faction considers fully satisfactory.'},
+  {sym:'El-F',name:'Fulmen Sovereign',grade:'ELITE',cls:'ELITE',sub:'Elite-Fulmen',origin:'Valdris',affinity:'Pre-encoded master electrical Will',use:'Master-tier electrical Lance',rarity:'Exceptional',notes:'Longvael refused to contribute encoding expertise. The current version is considered the weakest of the Sovereign line as a direct result.'},
+  {sym:'El-S',name:'Sono Sovereign',grade:'ELITE',cls:'ELITE',sub:'Elite-Sono',origin:'Valdris',affinity:'Pre-encoded master sound Will',use:'Master-tier sound Lance',rarity:'Exceptional',notes:'The encoding was contributed anonymously. Valdris has never identified who provided the master pattern. The encoded Will is the most sophisticated in the Sovereign line.'},
+  {sym:'El-V',name:'Vita Sovereign',grade:'ELITE',cls:'ELITE',sub:'Elite-Vita',origin:'Valdris',affinity:'Pre-encoded master healing Will',use:'Master-tier medical Lance',rarity:'Exceptional',notes:'Lorvaan contributed the encoding expertise and then lost commercial access to the finished product. The Vita Sovereign is the most ethically contested item Valdris manufactures.'},
+  {sym:'El-M',name:'Dual Sovereign',grade:'ELITE',cls:'ELITE',sub:'Elite-Dual',origin:'Valdris',affinity:'Pre-encoded dual-class Will (Ignis + Fulmen)',use:'Dual-class master Lance',rarity:'Near Singular',notes:'The only Elite metal encoding two classes simultaneously. Fewer than 200 exist. Mahrek\'s combat doctrine directly inspired the fire-lightning combination.'},
+  {sym:'El-X',name:'Void Sovereign',grade:'ELITE',cls:'ELITE',sub:'Elite-Void',origin:'Valdris',affinity:'Pre-encoded spatial-gravity Will',use:'Master-tier spatial Lance',rarity:'Near Singular',notes:'The rarest and most expensive Elite metal. Only Valdris\'s own enforcement commanders carry one. The encoding required three Grade 5 Void metal holders — all now deceased.'},
+  // DEAD
+  {sym:'Dd-E1',name:'Ferrum Antiquum',grade:'DEAD',cls:'DEAD',sub:'Dead-Terra',origin:'Earth Origin',affinity:'INERT — formerly iron-family',use:'Collector item only',rarity:'Near Extinct',notes:'Earth-origin iron alloy. AUM resonance fully depleted by Year 1,200 A.A. Remaining fragments held primarily in Valdris\'s Historical Archive. The last active sample went dead in Year 847 A.A.'},
+  {sym:'Dd-E2',name:'Argentum Mortis',grade:'DEAD',cls:'DEAD',sub:'Dead-Fulmen',origin:'Earth Origin',affinity:'INERT — formerly silver-class',use:'Research specimen',rarity:'Near Extinct',notes:'Once possessed extraordinary Fulmen-class resonance. Records from Year 200 A.A. describe Grade 4 electrical output. Now completely silent. Loss considered irreversible.'},
+  {sym:'Dd-E3',name:'Aurum Vetum',grade:'DEAD',cls:'DEAD',sub:'Dead-Animus',origin:'Earth Origin',affinity:'INERT — formerly Will-responsive',use:'Sacred relic',rarity:'Fragments only',notes:'Earth gold variant. Pre-migration records suggest it responded faintly to Will even on Earth — possibly the first evidence that Will existed before New Meridian amplified it.'},
+  {sym:'Dd-E4',name:'Cuprum Antiquum',grade:'DEAD',cls:'DEAD',sub:'Dead-Fulmen',origin:'Earth Origin',affinity:'INERT — formerly copper-class',use:'Industrial relic',rarity:'Fragments only',notes:'Among the last Earth metals to lose resonance — finally going dead around Year 1,800 A.A. Extensively used in early post-Ascension Corval infrastructure.'},
+  {sym:'Dd-E5',name:'Carbonis Antiquum',grade:'DEAD',cls:'DEAD',sub:'Dead-Terra',origin:'Earth Origin',affinity:'INERT — formerly carbon-class',use:'None',rarity:'Dust traces',notes:'Earth carbon in various forms including diamond. Diamond samples retain faint crystalline structure that once held Animus-adjacent resonance. Several religious orders collect diamond fragments as proof of the First Breath.'},
+  {sym:'Dd-E6',name:'Titanium Vetum',grade:'DEAD',cls:'DEAD',sub:'Dead-Terra',origin:'Earth Origin',affinity:'INERT — formerly structural',use:'Structural relic',rarity:'Rare fragments',notes:'Still found in some of the oldest Helm foundations. Prized for structural integrity even without AUM resonance.'},
+  {sym:'Dd-M1',name:'Ferric Rubrum',grade:'DEAD',cls:'DEAD',sub:'Dead-Terra',origin:'Mars Origin',affinity:'INERT — formerly geological',use:'Historical record',rarity:'Uncommon',notes:'Mars iron-oxide compound. AUM resonance depleted by Year 2,400 A.A. — later than most Earth metals, suggesting Mars matter held resonance slightly longer.'},
+  {sym:'Dd-M2',name:'Perchlorate Mortis',grade:'DEAD',cls:'DEAD',sub:'Dead-Aero',origin:'Mars Origin',affinity:'INERT — formerly atmospheric',use:'None',rarity:'Common fragments',notes:'Mars atmospheric compound. Once showed faint Aero-class resonance. Fully inert by Year 600 A.A. Led to the first formal study of why imported matter loses AUM coherence.'},
+  {sym:'Dd-M3',name:'Basalt Vetus',grade:'DEAD',cls:'DEAD',sub:'Dead-Terra',origin:'Mars Origin',affinity:'INERT — formerly volcanic',use:'Construction fill',rarity:'Common',notes:'Used extensively as construction fill material after AUM resonance depleted. Most Helm infrastructure built before Year 1,000 A.A. has Basalt Vetus fill in its foundations.'},
+  {sym:'Dd-M4',name:'Olympium',grade:'DEAD',cls:'DEAD',sub:'Dead-Animus',origin:'Mars Origin',affinity:'INERT — formerly Will-adjacent',use:'Sacred relic',rarity:'Rare',notes:'Named for Olympus Mons on Mars. Considered the most tragic loss in materials science history — it held the strongest AUM response ever recorded in imported matter. Went completely inert by Year 312 A.A.'},
+  {sym:'Dd-M5',name:'Ares Ferrum',grade:'DEAD',cls:'DEAD',sub:'Dead-Ignis',origin:'Mars Origin',affinity:'INERT — formerly heat-adjacent',use:'None',rarity:'Uncommon',notes:'The last Ares Ferrum Lance on record was used in Year 89 A.A. — described by witnesses as producing "a pale, sad fire, like something remembering what it used to be."'},
+  {sym:'Tr-1',name:'Vexorite Prime',grade:1,cls:'DEAD',sub:'Transitional',origin:'Both Origins',affinity:'FADING — formerly Grade 3 Terra',use:'Degraded Lance only',rarity:'Extremely Rare',notes:'Currently losing AUM resonance at a measurable rate. Projected complete resonance loss: Year 5,800 A.A. Scientists race to document remaining properties.'},
+  {sym:'Tr-2',name:'Helio Remnant',grade:1,cls:'DEAD',sub:'Transitional',origin:'Earth Origin',affinity:'FADING — formerly Grade 2 Ignis',use:'Degraded Lance only',rarity:'Extremely Rare',notes:'The last Earth metal with measurable AUM activity. Rate of resonance loss has accelerated in the last 200 years. Current estimates suggest complete death by Year 5,200 A.A.'},
+  {sym:'Tr-3',name:'Aresite',grade:1,cls:'DEAD',sub:'Transitional',origin:'Mars Origin',affinity:'FADING — formerly Grade 2 Aero',use:'Degraded Lance only',rarity:'Extremely Rare',notes:'The second-to-last Mars metal with measurable resonance. Valdris and Valdeen have established a joint monitoring program. When Aresite goes dead, only Helio Remnant will remain.'},
+  {sym:'Uk-1',name:'Null Fragment',grade:'DEAD',cls:'DEAD',sub:'Dead-Unknown',origin:'Unknown Origin',affinity:'INERT — class unidentifiable',use:'Mystery specimen',rarity:'Fragments only',notes:'Cannot be classified. Material composition matches no known metal from Earth, Mars, or New Meridian. Origin is the most contested question in xenometallurgy.'},
+  {sym:'Uk-2',name:'Voidstone',grade:'DEAD',cls:'DEAD',sub:'Dead-Void',origin:'Unknown Origin',affinity:'INERT — formerly Void-class',use:'Classified',rarity:'Single sample',notes:'Single sample recovered from deep space debris that accompanied the original fleet. Shows clear evidence of former Void-class resonance at extraordinary grade. Some researchers believe it originated from a third civilization.'},
+  // HYBRID & SPECIAL
+  {sym:'Hb-1',name:'Ignaflow',grade:3,cls:'HYBRID',sub:'Hybrid: Ignis-Aqua',origin:'Unknown',affinity:'Steam, superheated vapor force',use:'Hybrid Lance',rarity:'Rare',notes:'Naturally bridges Ignis and Aqua classes. Produces superheated steam rather than fire or water independently. Extremely volatile — requires significant Will to stabilize. Most Hybrid Lances are military-only.'},
+  {sym:'Hb-2',name:'Stormite',grade:3,cls:'HYBRID',sub:'Hybrid: Aero-Fulmen',origin:'Albireo',affinity:'Lightning storms, charged wind',use:'Hybrid Lance',rarity:'Rare',notes:'Albireo\'s double nature produced this naturally occurring dual-class metal. Gold and Blue factions both claim its discovery. Produces electrically charged wind — neither pure Fulmen nor pure Aero.'},
+  {sym:'Hb-3',name:'Sonaterra',grade:3,cls:'HYBRID',sub:'Hybrid: Sono-Terra',origin:'Unknown',affinity:'Seismic resonance, ground waves',use:'Hybrid Lance',rarity:'Rare',notes:'Bridges sound and earth. Produces vibrations that travel through solid ground rather than air. A single Sonaterra Lance can be felt through stone floors from considerable distance.'},
+  {sym:'Hb-4',name:'Lifeblight',grade:4,cls:'HYBRID',sub:'Hybrid: Vita-Decay',origin:'Unknown',affinity:'Simultaneous heal and harm',use:'Prohibited Lance',rarity:'Very Rare',notes:'The most ethically condemned metal in the catalogue. Heals one target while extracting biological material from another. World Accord designation: Class 1 prohibited weapon.'},
+  {sym:'Hb-5',name:'Memorite',grade:3,cls:'HYBRID',sub:'Hybrid: Tempus-Sono',origin:'Valdeen',affinity:'Sound-encoded memory recording',use:'Archive Lance',rarity:'Rare',notes:'Records not just sound but the temporal context of the moment — when played back, listeners experience the memory with near-complete environmental fidelity.'},
+  {sym:'Cx-1',name:'Voidfire',grade:4,cls:'HYBRID',sub:'Counter: Ignis',origin:'Unknown',affinity:'Absorbs and nullifies fire AUM',use:'Counter Lance',rarity:'Very Rare',notes:'Works against its own class — absorbs Ignis-class Will projections rather than producing them. A Voidfire Lance creates a field that consumes incoming fire. The energy has to go somewhere.'},
+  {sym:'Cx-2',name:'Stillwater',grade:3,cls:'HYBRID',sub:'Counter: Aqua',origin:'Valdeen',affinity:'Absorbs water AUM, desiccation',use:'Counter Lance',rarity:'Rare',notes:'Absorbs Aqua-class projections. Creates a field of extreme dryness. Extended exposure desiccates organic matter. Valdeen developed it as a counter to their own Aqua Lance tradition.'},
+  {sym:'Cx-3',name:'Silencer',grade:4,cls:'HYBRID',sub:'Counter: Sono',origin:'Unknown',affinity:'Total sound absorption',use:'Counter Lance',rarity:'Very Rare',notes:'Absorbs all sound — including sounds produced by Sono Lances. Creates true silence rather than Silentum\'s imposed silence field. Nothing in a Silencer field makes sound, including the metal itself.'},
+  {sym:'Un-1',name:'Volatite',grade:3,cls:'HYBRID',sub:'Unstable',origin:'Unknown',affinity:'Fluctuating AUM output — unpredictable',use:'Unstable Lance',rarity:'Rare',notes:'AUM resonance fluctuates between Grade 1 and Grade 5 output unpredictably. In stable moments: extraordinary. In unstable moments: nothing. Or explosion. Unlicensed Lancers favor Volatite for its ceiling.'},
+  {sym:'Cd-1',name:'Stormcaller',grade:3,cls:'HYBRID',sub:'Conditional',origin:'Albireo',affinity:'Only activates during electrical storms',use:'Conditional Lance',rarity:'Rare',notes:'Dormant under normal conditions. During electrical storms: produces Fulmen-class output at Grade 5 equivalent. Albireo\'s storm-prone upper atmosphere makes this more practical there than anywhere else.'},
+  {sym:'Tx-1',name:'Blightite',grade:3,cls:'HYBRID',sub:'Toxic',origin:'Unknown',affinity:'Corrupts user\'s neural AUM',use:'Black market Lance',rarity:'Uncommon',notes:'Prolonged contact corrupts the handler\'s neural AUM coherence. Produces VSCS-adjacent symptoms after extended use. Despite this, black market demand is high.'},
+  {sym:'Ds-1',name:'Graystone',grade:2,cls:'HYBRID',sub:'Disputed',origin:'Unknown',affinity:'Class affiliation contested',use:'Research specimen',rarity:'Rare',notes:'Scientists cannot agree whether Graystone is Void-class or Animus-class. Both schools publish competing papers. The World Council\'s scientific committee has been unable to reach consensus for 400 years.'},
+];
+
+function gradeStars(g, cls) {
+  if(cls==='ZORINIUM') return '<span style="color:var(--gold);">✦✦✦✦✦✦</span>';
+  if(g==='ELITE') return '<span style="color:var(--gold);font-family:var(--mono);font-size:.75rem;">ELITE</span>';
+  if(g==='DEAD') return '<span style="color:#666;font-family:var(--mono);font-size:.75rem;">DEAD</span>';
+  let s='';
+  for(let i=1;i<=5;i++) s+=`<span class="${i<=g?'':'grade-empty'}">★</span>`;
+  return `<span class="grade-stars">${s}</span>`;
+}
+
+function rarityClass(r) {
+  const low=r.toLowerCase();
+  if(low.includes('singular')||low.includes('theoretical')||low.includes('mythological')) return 'singular';
+  if(low.includes('restricted')||low.includes('classified')) return 'restricted';
+  if(low.includes('extinct')||low.includes('dead')||low.includes('fragments')||low.includes('traces')||low.includes('single sample')) return 'dead';
+  if(low.includes('exceptional')) return 'elite';
+  return '';
+}
+
+function renderMetals(filter) {
+  const grid = document.getElementById('metals-grid');
+  const filtered = filter==='all' ? METALS : METALS.filter(m=>m.cls===filter);
+  if(!filtered.length){grid.innerHTML='<p style="color:var(--text3);font-style:italic;padding:1rem 0;">No metals found for this class.</p>';return;}
+  grid.innerHTML=`<table class="metals-table">
+    <thead><tr>
+      <th>Sym</th><th>Name</th><th>Grade</th><th>Class</th><th>Sub-Class</th><th>Origin</th><th>Affinity</th><th>Lance Use</th><th>Rarity</th><th>Notes</th>
+    </tr></thead>
+    <tbody>${filtered.map(m=>`<tr>
+      <td><span class="metal-sym">${m.sym}</span></td>
+      <td><span class="metal-name">${m.name}</span></td>
+      <td>${gradeStars(m.grade,m.cls)}</td>
+      <td><span class="metal-class-tag ${m.cls}">${m.cls}</span></td>
+      <td style="font-family:var(--mono);font-size:.75rem;color:var(--text3);">${m.sub||''}</td>
+      <td><span class="origin-tag">${m.origin}</span></td>
+      <td style="color:var(--text);">${m.affinity}</td>
+      <td>${m.use}</td>
+      <td><span class="rarity-tag ${rarityClass(m.rarity)}">${m.rarity}</span></td>
+      <td style="font-size:.8rem;font-style:italic;color:var(--text3);">${m.notes}</td>
+    </tr>`).join('')}</tbody>
+  </table>`;
+}
+
+document.querySelectorAll('.class-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.class-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    renderMetals(btn.dataset.class);
+  });
+});
+renderMetals('all');
+
+// ============================================================
+// FADE IN ON SCROLL
+// ============================================================
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:0.1});
+document.querySelectorAll('.fade-in').forEach(el=>observer.observe(el));
+
+// ============================================================
+// NAV SCROLL HIGHLIGHT
+// ============================================================
+window.addEventListener('scroll',()=>{
+  const y=window.scrollY+80;
+  ['world','simulation','helms','aum','codex','chapters'].forEach(id=>{
+    const s=document.getElementById(id);
+    const l=document.querySelector(`.nav-links a[href="#${id}"]`);
+    if(!s||!l)return;
+    l.style.color=y>=s.offsetTop&&y<s.offsetTop+s.offsetHeight?'var(--gold)':'';
+  });
+});
+
+// ============================================================
+// SIMULATION ENGINE
+// ============================================================
+(function(){
+  const canvas = document.getElementById('sim-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, cx, cy;
+  let currentView = 'system';
+  let animFrame;
+  let time = 0;
+  let hoveredBody = null;
+
+  const SYSTEM_DATA = {
+    star: {
+      name:'Regor',symbol:'RGR',type:'Blue Star — B-Type',
+      color:'#A0C8FF',glowColor:'rgba(140,190,255,0.4)',
+      desc:'The blue star at the heart of the Regor System. Ancient, powerful, indifferent. Its blue-white radiation shaped every world that orbits it — burning some to nothing, freezing others at the edges, and somehow leaving Anara alive in the middle.',
+      detail:'Class: B-Type Blue Star\nSurface Temp: ~15,000K\nSignificance: Origin of all light in the Regor System',
+      radius:38, clickable:true,
+    },
+    planets:[
+      {id:'char',name:'Char',symbol:'CHR',type:'Dead Planet — Baked & Stripped',color:'#2A1A0A',glowColor:'rgba(80,40,10,0.3)',desc:'The first planet. Too close to Regor. Its atmosphere was stripped by blue radiation before anything could grow. The surface temperature makes stone behave like liquid at noon. Nothing has ever lived here.',detail:'Status: Dead — Atmospherically Stripped\nPosition: 1st from Regor\nSurface: Scorched black rock',orbitRadius:120,orbitSpeed:0.0008,startAngle:0.8,radius:7,clickable:true},
+      {id:'ashur',name:'Ashur',symbol:'ASH',type:'Dead Planet — Ancient Dried Oceans',color:'#5A3020',glowColor:'rgba(120,60,30,0.3)',desc:'The second planet. Ashur died slowly. Once it had oceans — the dried beds are still visible from space, vast white crust plains where water evaporated over millions of years. A ghost of something that almost lived.',detail:'Status: Dead — Dried Oceans\nPosition: 2nd from Regor\nSurface: Rust-red plains, white salt flats',orbitRadius:170,orbitSpeed:0.00055,startAngle:2.1,radius:10,clickable:true},
+      {id:'janus',name:'Janus',symbol:'JNS',type:'Dead Planet — Tidally Locked',color:'#1A1A2A',glowColor:'rgba(40,40,80,0.3)',desc:'The third planet. Tidally locked — one face permanently burning in Regor\'s blue light, one face permanently frozen in absolute darkness. Split down the middle forever. A warning of what division costs.',detail:'Status: Dead — Tidally Locked\nPosition: 3rd from Regor\nSurface: Half scorched, half frozen',orbitRadius:225,orbitSpeed:0.00042,startAngle:4.2,radius:9,clickable:true},
+      {id:'anara',name:'Anara',symbol:'ANA',type:'Living Planet — Home of the Eight Helms',color:'#1A0A3A',glowColor:'rgba(80,40,180,0.4)',desc:'The fourth planet. Alive against all reason. Surrounded by dead worlds on all sides, Anara sustains life through its extraordinary AUM density — a conscious planetary substrate that has been fighting Regor\'s radiation for billions of years.',detail:'Status: ALIVE\nPosition: 4th from Regor\nAtmosphere: Deep violet-blue\nOcean Coverage: 50%\nFeature: Eight Helms in orbit\nCLICK TO ENTER ANARA\'S SYSTEM',orbitRadius:300,orbitSpeed:0.0003,startAngle:1.0,radius:22,clickable:true,isAnara:true},
+      {id:'ardan',name:'Ardan',symbol:'ARD',type:'Gas Giant — Fierce Protector',color:'#0A1A3A',glowColor:'rgba(20,60,120,0.4)',desc:'The fifth planet. A massive gas giant whose gravity has been catching asteroids aimed at Anara for billions of years. Ardan has never been asked to protect anything. It just does.',detail:'Status: Gas Giant\nPosition: 5th from Regor\nRole: Anara\'s primary gravitational shield\nAppearance: Deep blue bands in Regor\'s light',orbitRadius:400,orbitSpeed:0.00018,startAngle:3.5,radius:30,clickable:true},
+      {id:'bulwark',name:'Bulwark',symbol:'BWK',type:'Gas Giant — Patient Wall',color:'#0A1A2A',glowColor:'rgba(20,50,90,0.3)',desc:'The sixth planet. The second protector. Quieter than Ardan, less dramatic, equally essential.',detail:'Status: Gas Giant\nPosition: 6th from Regor\nRole: Secondary gravitational shield',orbitRadius:490,orbitSpeed:0.00013,startAngle:5.8,radius:25,clickable:true},
+      {id:'husk',name:'Husk',symbol:'HSK',type:'Dead Planet — Geologically Collapsed',color:'#1A1A1A',glowColor:'rgba(40,40,40,0.3)',desc:'The seventh planet. Its core cooled completely and the surface contracted and cracked as it shrank inward. It looks broken from space.',detail:'Status: Dead — Core Collapsed\nPosition: 7th from Regor\nSurface: Cracked and fissured dark rock',orbitRadius:575,orbitSpeed:0.0001,startAngle:1.8,radius:11,clickable:true},
+      {id:'nivis',name:'Nivis',symbol:'NVS',type:'Ice World — Ancient Cold',color:'#1A2A3A',glowColor:'rgba(40,80,120,0.2)',desc:'The eighth planet. Ancient snow and ice, compressed over billions of years into something harder than rock. Some of Anara\'s water originally came from Nivis — delivered by ancient impacts in the early solar system.',detail:'Status: Ice World\nPosition: 8th from Regor\nSurface: Blue-white ice over dark rock',orbitRadius:650,orbitSpeed:0.00008,startAngle:0.3,radius:13,clickable:true},
+      {id:'nox',name:'Nox',symbol:'NOX',type:'Ice World — Pure Darkness',color:'#0A0A14',glowColor:'rgba(20,20,40,0.2)',desc:'The ninth planet. The last thing before the void. So far from Regor that it receives almost no light.',detail:'Status: Ice World\nPosition: 9th from Regor\nSurface: Near-black ice\nAppearance: Almost invisible against the void',orbitRadius:730,orbitSpeed:0.00006,startAngle:3.9,radius:11,clickable:true},
+    ]
+  };
+
+  const HELM_DATA = {
+    planet:{name:'Anara',symbol:'ANA',type:'Living Planet — Home of the Eight Helms',color:'#1A0A3A',glowColor:'rgba(100,40,200,0.5)',desc:'Anara. The living planet. Bigger than Earth. Deep indigo oceans covering half its surface. Dark crimson-purple vegetation evolved under Regor\'s blue light. Eight Helms — scraped from its own body — orbiting above.',detail:'Status: ALIVE\nSize: Larger than Earth\nOceans: Deep indigo, 50% coverage\nVegetation: Dark crimson-purple\nAtmosphere: Violet-blue haze\nAUM Density: Extraordinary',radius:55,clickable:true},
+    helms:[
+      {id:'zoryn',name:'Zoryn',symbol:'ZRN',type:'Helm I — The Grief Helm — Day 1',color:'#8A9AAA',glowColor:'rgba(138,154,170,0.3)',desc:'Named after a dead boy by a grieving father. Built alone. The most personal of all Helms. Cold grey-blue from space — significant ice coverage, sparse dark vegetation, quiet water bodies.',detail:'Festival Day: Day 1\nCharacter: Quiet, deep, loyal\nDistinctive: Only source of Zorinium\nAppearance: Cold grey-blue with white ice',orbitRadius:130,orbitSpeed:0.0012,startAngle:0.5,radius:14,clickable:true},
+      {id:'mahrek',name:'Mahrek',symbol:'MHR',type:'Helm II — The Warrior Helm — Day 3',color:'#8A4A1A',glowColor:'rgba(180,80,20,0.35)',desc:'The most feared Helm in the sky. 5000 years of aggressive resource extraction has stripped its surface. Vast orange-brown sand plains, dramatic dark mountain ranges, almost no vegetation remaining.',detail:'Festival Day: Day 3\nCharacter: Dominant, militarized, proud\nDistinctive: Most feared military force\nAppearance: Burnt orange sand, dark rock mountains',orbitRadius:180,orbitSpeed:0.0009,startAngle:2.3,radius:15,clickable:true},
+      {id:'calderon',name:'Calderon',symbol:'CDR',type:'Helm III — The Alliance Helm — Day 2',color:'#2A4A3A',glowColor:'rgba(40,120,80,0.3)',desc:'The most diverse civilization in the sky. A patchwork of colors from orbit — dark red-purple wild vegetation, bright agricultural zones, significant water bodies, urban light clusters.',detail:'Festival Day: Day 2\nCharacter: Democratic, diverse, unpredictable\nDistinctive: Broadest range of Will abilities\nAppearance: Colorful patchwork — most varied Helm',orbitRadius:235,orbitSpeed:0.00075,startAngle:4.1,radius:16,clickable:true},
+      {id:'valdeen',name:'Valdeen',symbol:'VLD',type:'Helm IV — The Deep Water Helm — Day 4',color:'#0A1A3A',glowColor:'rgba(10,40,100,0.35)',desc:'Predominantly deep water coverage. Dark indigo oceans dominating. Small dark landmasses barely visible beneath permanent atmospheric haze. Looks like it\'s hiding something.',detail:'Festival Day: Day 4\nCharacter: Patient, secretive, scholarly\nDistinctive: Advanced AUM research\nAppearance: Deep indigo-black, permanent cloud cover',orbitRadius:290,orbitSpeed:0.00062,startAngle:1.2,radius:14,clickable:true},
+      {id:'albireo',name:'Albireo',symbol:'ALB',type:'Helm V — The Double Helm — Day 5',color:'#3A3A1A',glowColor:'rgba(180,140,40,0.3)',desc:'Named after a double star — one gold, one blue. The division is visible from space. Two natures in permanent orbit around each other.',detail:'Festival Day: Day 5\nCharacter: Divided, beautiful, unstable\nDistinctive: Gold and blue hemispheres\nAppearance: Literally split — gold one side, blue the other',orbitRadius:345,orbitSpeed:0.00052,startAngle:3.7,radius:15,clickable:true},
+      {id:'longvael',name:'Longvael',symbol:'LGV',type:'Helm VI — The Dragon Helm — Day 6',color:'#0A0A1A',glowColor:'rgba(20,20,60,0.35)',desc:'5000 years of isolation means minimal development scarring. The darkest Helm — deep dark vegetation almost black-purple, dramatic mountain ranges, zero light pollution from settlements.',detail:'Festival Day: Day 6\nCharacter: Ancient, isolated, proud\nDistinctive: Refuses external contact — except Zoryn\nAppearance: Near-black purple, dark mountains, no glow',orbitRadius:395,orbitSpeed:0.00044,startAngle:5.2,radius:14,clickable:true},
+      {id:'lorvaan',name:'Lorvaan',symbol:'LRV',type:'Helm VII — The Love Helm — Day 7',color:'#2A1A2A',glowColor:'rgba(120,60,120,0.3)',desc:'Built by the fewest people. Named after love. The most carefully maintained Helm — dark red-purple vegetation cultivated with care, significant water networks, warm light from dense communal settlements.',detail:'Festival Day: Day 7\nCharacter: Warm, communal, compassionate\nDistinctive: Most humane approach to the Curse\nAppearance: Deep red-purple, warm settlement glow',orbitRadius:445,orbitSpeed:0.00038,startAngle:0.9,radius:12,clickable:true},
+      {id:'valdris',name:'Valdris',symbol:'VDR',type:'Helm VIII — The Capital — Natural Helm',color:'#2A2A2A',glowColor:'rgba(201,168,76,0.3)',desc:'The only natural Helm — it was already there before humanity arrived. The capital of the known world. 5000 years of being the most populated and politically active Helm has left it visibly urban from space.',detail:'Festival Day: All Days\nCharacter: Neutral by law, controlling in practice\nDistinctive: World Council, law, military, school\nAppearance: Grey urban coverage, high light output, gold-lit',orbitRadius:510,orbitSpeed:0.00028,startAngle:2.8,radius:18,clickable:true},
+    ]
+  };
+
+  function resize(){
+    const wrapper = canvas.parentElement;
+    W = canvas.width = wrapper.clientWidth;
+    H = canvas.height = wrapper.clientHeight;
+    cx = W/2; cy = H/2;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  const stars = [];
+  for(let i=0;i<600;i++){
+    stars.push({x:Math.random()*3000-1500,y:Math.random()*2000-1000,r:Math.random()*1.2+0.2,a:Math.random()*0.6+0.1,twinkle:Math.random()*Math.PI*2,twinkleSpeed:Math.random()*0.02+0.005});
+  }
+
+  function drawStars(){
+    stars.forEach(s=>{
+      s.twinkle+=s.twinkleSpeed;
+      const a=s.a*(0.7+0.3*Math.sin(s.twinkle));
+      ctx.beginPath();ctx.arc(cx+s.x,cy+s.y,s.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(200,210,255,${a})`;ctx.fill();
+    });
+  }
+
+  function parseGlowColor(color, alpha){
+    const rgba = color.match(/rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/);
+    if(rgba) return `rgba(${rgba[1]},${rgba[2]},${rgba[3]},${alpha})`;
+    return color;
+  }
+
+  function drawGlow(x,y,radius,color,intensity=1){
+    const g=ctx.createRadialGradient(x,y,0,x,y,radius*3);
+    g.addColorStop(0,parseGlowColor(color,0.6*intensity));
+    g.addColorStop(0.4,parseGlowColor(color,0.15*intensity));
+    g.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.beginPath();ctx.arc(x,y,radius*3,0,Math.PI*2);
+    ctx.fillStyle=g;ctx.fill();
+  }
+
+  function hexToRgb(hex){
+    const r=/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return r?{r:parseInt(r[1],16),g:parseInt(r[2],16),b:parseInt(r[3],16)}:null;
+  }
+
+  function drawPlanet(x,y,radius,color,glowColor,label,isHovered,isAnara=false){
+    drawGlow(x,y,radius,glowColor,isHovered?1.8:1);
+    if(isAnara){
+      const atm=ctx.createRadialGradient(x,y,radius*0.8,x,y,radius*1.6);
+      atm.addColorStop(0,'rgba(80,20,160,0)');
+      atm.addColorStop(0.7,'rgba(80,20,160,0.15)');
+      atm.addColorStop(1,'rgba(80,20,160,0)');
+      ctx.beginPath();ctx.arc(x,y,radius*1.6,0,Math.PI*2);
+      ctx.fillStyle=atm;ctx.fill();
+    }
+    const grad=ctx.createRadialGradient(x-radius*0.3,y-radius*0.3,0,x,y,radius);
+    const bc=hexToRgb(color);
+    if(bc){
+      grad.addColorStop(0,`rgba(${Math.min(255,bc.r+40)},${Math.min(255,bc.g+40)},${Math.min(255,bc.b+40)},1)`);
+      grad.addColorStop(0.6,color);
+      grad.addColorStop(1,`rgba(${Math.max(0,bc.r-20)},${Math.max(0,bc.g-20)},${Math.max(0,bc.b-20)},1)`);
+    } else {
+      grad.addColorStop(0,color);grad.addColorStop(1,color);
+    }
+    ctx.beginPath();ctx.arc(x,y,radius,0,Math.PI*2);ctx.fillStyle=grad;ctx.fill();
+    if(isAnara){
+      ctx.beginPath();ctx.arc(x,y,radius,0,Math.PI*2);
+      ctx.strokeStyle='rgba(60,20,120,0.4)';ctx.lineWidth=1;ctx.stroke();
+      ctx.beginPath();ctx.arc(x,y-radius*0.75,radius*0.35,0,Math.PI*2);
+      ctx.fillStyle='rgba(180,160,255,0.15)';ctx.fill();
+      ctx.beginPath();ctx.arc(x,y+radius*0.8,radius*0.3,0,Math.PI*2);
+      ctx.fillStyle='rgba(180,160,255,0.12)';ctx.fill();
+    }
+    if(isHovered){
+      ctx.beginPath();ctx.arc(x,y,radius+4,0,Math.PI*2);
+      ctx.strokeStyle=isAnara?'rgba(150,80,255,0.6)':'rgba(201,168,76,0.4)';
+      ctx.lineWidth=1;ctx.stroke();
+    }
+    if(isAnara){
+      const pulse=(Math.sin(time*0.02)+1)*0.5;
+      ctx.beginPath();ctx.arc(x,y,radius+8+pulse*6,0,Math.PI*2);
+      ctx.strokeStyle=`rgba(100,40,200,${0.15*pulse})`;ctx.lineWidth=1;ctx.stroke();
+    }
+  }
+
+  function drawStar(x,y,radius){
+    for(let i=3;i>0;i--){
+      const g=ctx.createRadialGradient(x,y,0,x,y,radius*i*2.5);
+      g.addColorStop(0,`rgba(160,200,255,${0.12/i})`);
+      g.addColorStop(1,'rgba(0,0,0,0)');
+      ctx.beginPath();ctx.arc(x,y,radius*i*2.5,0,Math.PI*2);
+      ctx.fillStyle=g;ctx.fill();
+    }
+    const core=ctx.createRadialGradient(x,y,0,x,y,radius);
+    core.addColorStop(0,'#FFFFFF');core.addColorStop(0.3,'#D0E8FF');
+    core.addColorStop(0.7,'#A0C8FF');core.addColorStop(1,'#6090CC');
+    ctx.beginPath();ctx.arc(x,y,radius,0,Math.PI*2);ctx.fillStyle=core;ctx.fill();
+    ctx.save();ctx.globalAlpha=0.06;
+    for(let i=0;i<8;i++){
+      const angle=(i/8)*Math.PI*2+time*0.003;
+      const len=radius*8+Math.sin(time*0.02+i)*radius*2;
+      ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+Math.cos(angle)*len,y+Math.sin(angle)*len);
+      ctx.strokeStyle='#A0C8FF';ctx.lineWidth=1;ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  function drawLabel(x,y,name,isHovered,offset=20){
+    ctx.font=`600 ${isHovered?11:9}px 'Cinzel', serif`;
+    ctx.textAlign='center';
+    ctx.fillStyle=isHovered?'rgba(201,168,76,0.9)':'rgba(150,140,180,0.6)';
+    ctx.fillText(name.toUpperCase(),x,y+offset);
+  }
+
+  function getPlanetPos(p,t){
+    const angle=p.startAngle+t*p.orbitSpeed;
+    return{x:cx+Math.cos(angle)*p.orbitRadius,y:cy+Math.sin(angle)*p.orbitRadius*0.38};
+  }
+
+  function getHelmPos(h,t){
+    const angle=h.startAngle+t*h.orbitSpeed;
+    return{x:cx+Math.cos(angle)*h.orbitRadius,y:cy+Math.sin(angle)*h.orbitRadius*0.4};
+  }
+
+  function hitTest(mx,my,x,y,radius){
+    return Math.hypot(mx-x,my-y)<radius+12;
+  }
+
+  function drawSystemView(){
+    ctx.fillStyle='#02010A';ctx.fillRect(0,0,W,H);
+    drawStars();
+    const wash=ctx.createRadialGradient(cx,cy,0,cx,cy,500);
+    wash.addColorStop(0,'rgba(80,120,255,0.06)');wash.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=wash;ctx.fillRect(0,0,W,H);
+    SYSTEM_DATA.planets.forEach(p=>{
+      ctx.beginPath();ctx.ellipse(cx,cy,p.orbitRadius,p.orbitRadius*0.38,0,0,Math.PI*2);
+      ctx.strokeStyle='rgba(100,80,160,0.06)';ctx.lineWidth=0.5;ctx.stroke();
+    });
+    drawStar(cx,cy,SYSTEM_DATA.star.radius);
+    const planetsWithPos=SYSTEM_DATA.planets.map(p=>({...p,pos:getPlanetPos(p,time)})).sort((a,b)=>a.pos.y-b.pos.y);
+    planetsWithPos.forEach(p=>{
+      const hovered=hoveredBody&&hoveredBody.id===p.id;
+      drawPlanet(p.pos.x,p.pos.y,p.radius,p.color,p.glowColor,p.name,hovered,p.isAnara);
+      drawLabel(p.pos.x,p.pos.y+p.radius,p.name,hovered,16);
+    });
+  }
+
+  function drawAnaraView(){
+    ctx.fillStyle='#02010A';ctx.fillRect(0,0,W,H);
+    drawStars();
+    const wash=ctx.createRadialGradient(cx,cy,0,cx,cy,600);
+    wash.addColorStop(0,'rgba(60,20,120,0.08)');wash.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=wash;ctx.fillRect(0,0,W,H);
+    HELM_DATA.helms.forEach(h=>{
+      ctx.beginPath();ctx.ellipse(cx,cy,h.orbitRadius,h.orbitRadius*0.4,0,0,Math.PI*2);
+      ctx.strokeStyle='rgba(80,40,160,0.08)';ctx.lineWidth=0.5;ctx.stroke();
+    });
+    const ap=HELM_DATA.planet;
+    drawPlanet(cx,cy,ap.radius,ap.color,ap.glowColor,'Anara',hoveredBody&&hoveredBody.id==='anara-center',true);
+    const helmsWithPos=HELM_DATA.helms.map(h=>({...h,pos:getHelmPos(h,time)})).sort((a,b)=>a.pos.y-b.pos.y);
+    helmsWithPos.forEach(h=>{
+      const hovered=hoveredBody&&hoveredBody.id===h.id;
+      const behind=h.pos.y<cy;
+      ctx.globalAlpha=behind?0.55:1;
+      drawPlanet(h.pos.x,h.pos.y,h.radius,h.color,h.glowColor,h.name,hovered,false);
+      drawLabel(h.pos.x,h.pos.y+h.radius,h.name,hovered,16);
+      ctx.globalAlpha=1;
+    });
+    drawLabel(cx,cy+ap.radius,'Anara',hoveredBody&&hoveredBody.id==='anara-center',20);
+  }
+
+  function loop(){
+    time++;
+    if(currentView==='system') drawSystemView();
+    else drawAnaraView();
+    animFrame=requestAnimationFrame(loop);
+  }
+
+  // Mouse
+  canvas.addEventListener('mousemove',e=>{
+    const rect=canvas.getBoundingClientRect();
+    const mx=e.clientX-rect.left,my=e.clientY-rect.top;
+    hoveredBody=null;
+    if(currentView==='system'){
+      if(hitTest(mx,my,cx,cy,SYSTEM_DATA.star.radius)){hoveredBody=SYSTEM_DATA.star;canvas.style.cursor='pointer';return;}
+      for(const p of SYSTEM_DATA.planets){
+        const pos=getPlanetPos(p,time);
+        if(hitTest(mx,my,pos.x,pos.y,p.radius)){hoveredBody=p;canvas.style.cursor=p.isAnara?'zoom-in':'pointer';return;}
+      }
+    } else {
+      if(hitTest(mx,my,cx,cy,HELM_DATA.planet.radius)){hoveredBody={...HELM_DATA.planet,id:'anara-center'};canvas.style.cursor='pointer';return;}
+      for(const h of HELM_DATA.helms){
+        const pos=getHelmPos(h,time);
+        if(hitTest(mx,my,pos.x,pos.y,h.radius)){hoveredBody=h;canvas.style.cursor='pointer';return;}
+      }
+    }
+    canvas.style.cursor='default';
+  });
+
+  canvas.addEventListener('click',()=>{
+    if(!hoveredBody)return;
+    if(hoveredBody.isAnara&&currentView==='system'){enterAnara();return;}
+    showSimPanel(hoveredBody);
+  });
+
+  canvas.addEventListener('mouseleave',()=>{hoveredBody=null;canvas.style.cursor='default';});
+
+  function enterAnara(){
+    currentView='anara';
+    document.getElementById('sim-bc-sep').style.display='inline';
+    document.getElementById('sim-bc-anara').style.display='inline';
+    document.getElementById('sim-back-btn').style.display='block';
+    document.getElementById('sim-section-title').textContent='Anara — The Eight Helms';
+    document.getElementById('sim-instructions').innerHTML='Click any Helm to learn more<br>Click Anara to view planet details';
+    closeSimPanel();
+  }
+
+  function goBack(){
+    currentView='system';
+    document.getElementById('sim-bc-sep').style.display='none';
+    document.getElementById('sim-bc-anara').style.display='none';
+    document.getElementById('sim-back-btn').style.display='none';
+    document.getElementById('sim-section-title').textContent='Interactive Star Map — Click any body to explore';
+    document.getElementById('sim-instructions').innerHTML='Click any body to learn more<br>Click Anara to enter its system';
+    closeSimPanel();
+  }
+
+  document.getElementById('sim-back-btn').addEventListener('click',goBack);
+  document.getElementById('sim-bc-system').addEventListener('click',()=>{if(currentView==='anara')goBack();});
+
+  function showSimPanel(body){
+    const panel=document.getElementById('sim-info-panel');
+    document.getElementById('sim-panel-symbol').textContent=body.symbol||'◆';
+    document.getElementById('sim-panel-name').textContent=body.name;
+    document.getElementById('sim-panel-type').textContent=body.type;
+    document.getElementById('sim-panel-desc').textContent=body.desc;
+    const lines=(body.detail||'').split('\n');
+    document.getElementById('sim-panel-detail').innerHTML=lines.map(l=>{
+      const parts=l.split(':');
+      if(parts.length>=2) return `${parts[0]}: <span>${parts.slice(1).join(':').trim()}</span>`;
+      return `<span>${l}</span>`;
+    }).join('<br>');
+    panel.classList.add('visible');
+  }
+
+  function closeSimPanel(){document.getElementById('sim-info-panel').classList.remove('visible');}
+  document.getElementById('sim-close-panel').addEventListener('click',closeSimPanel);
+
+  // Start when section is visible
+  const simSection=document.getElementById('simulation');
+  let simStarted=false;
+  const simObserver=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting&&!simStarted){simStarted=true;loop();}
+      else if(!e.isIntersecting&&simStarted){cancelAnimationFrame(animFrame);}
+    });
+  },{threshold:0.1});
+  simObserver.observe(simSection);
+
+})();
+</script>
+</body>
+</html>
